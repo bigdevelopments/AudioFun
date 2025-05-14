@@ -1,0 +1,21 @@
+﻿namespace AudioComponents;
+
+public class Multiplier : ComponentBase
+{
+	// inputs and outputs
+	private readonly Input _input1;
+	private readonly Input _input2;
+	private readonly Output _output;
+
+	public Multiplier()
+	{
+		_input1 = AddInput("input-1");
+		_input2 = AddInput("input-2");
+		_output = AddOutput("output");
+	}
+
+	public override void Tick()
+	{
+		_output.Value = _input1.Value * _input2.Value;
+	}
+}
