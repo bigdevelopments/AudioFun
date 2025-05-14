@@ -1,0 +1,1 @@
+This is just some casual C# making sine waves in real time and being played using WASAPI via NAudio. At the moment anyway. ASIO proved just too painful and unreliable, and WASAPI in exclusive mode seems to go pretty low on the latency.
