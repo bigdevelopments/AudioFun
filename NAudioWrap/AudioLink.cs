@@ -6,11 +6,11 @@ namespace NAudioTest;
 
 internal class AudioLink : ISampleProvider
 {
-	private readonly Base _base;
+	private readonly ComponentSurface _base;
 	private readonly AudioOutput _audioOutput;
 	private readonly WaveFormat _waveFormat;
 
-	public AudioLink(Base bse, AudioOutput audioOutput)
+	public AudioLink(ComponentSurface bse, AudioOutput audioOutput)
 	{
 		_base = bse;
 		_audioOutput = audioOutput;

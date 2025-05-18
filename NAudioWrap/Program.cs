@@ -1,36 +1,41 @@
 ﻿using AudioComponents;
 
 using NAudio.Wave;
-
 using NAudioTest;
 
 class Program
 {
-	[STAThread]
 	public static void Main(string[] args)
 	{
-		Base bse = new Base();
+		ComponentSurface surface = new ComponentSurface();
 
-		var audioOut = bse.Add("audio-out", new AudioOutput());
+		var audioOut = surface.Add("audio-out", new AudioOutput());
 
-		bse.Add("440hz", new Constant(440f));
-		bse.Add("442hz", new Constant(442f));
-		bse.Add("amplitude", new Constant(0.5f));
-		bse.Add("sine-osc", new SineOscillator());
-		bse.Add("sine-osc2", new SineOscillator());
-		bse.Add("combiner", new Combiner());
+		surface.Add("440hz", new Constant(440f));
+		surface.Add("442hz", new Constant(442f));
+		surface.Add("amplitude", new Constant(0.5f));
+		surface.Add("sine-osc", new SineOscillator());
+		surface.Add("combiner", new Combiner());
 
-		bse.Connect("440hz", "out", "sine-osc", "frequency");
-		bse.Connect("442hz", "out", "sine-osc2", "frequency");
-		bse.Connect("amplitude", "out", "sine-osc", "amplitude");
-		bse.Connect("amplitude", "out", "sine-osc2", "amplitude");
-		bse.Connect("sine-osc", "out", "combiner", "in-1");
-		bse.Connect("sine-osc2", "out", "combiner", "in-2");
-		bse.Connect("combiner", "out", "audio-out", "in");
+		var hybrid = surface.Add("hybrid", new HybridComponent());
+		hybrid.Add("osc", new SineOscillator());
+		hybrid.Add("inv", new Inverter());
+		hybrid.ExposeInput("osc", "frequency", "frequency");
+		hybrid.ExposeInput("osc", "amplitude", "amplitude");
+		hybrid.ExposeOutput("osc", "out", "out");
 
-		bse.Initialise(48000, 1000);
+		surface.Connect("440hz", "out", "sine-osc", "frequency");
+		surface.Connect("442hz", "out", "hybrid", "frequency");
+		surface.Connect("amplitude", "out", "sine-osc", "amplitude");
+		surface.Connect("amplitude", "out", "hybrid", "amplitude");
+		surface.Connect("sine-osc", "out", "combiner", "in-1");
+		surface.Connect("hybrid", "out", "combiner", "in-2");
+		surface.Connect("combiner", "out", "audio-out", "in");
 
-		var audioLink = new AudioLink(bse, audioOut);	
+
+		surface.Initialise(48000, 1000);
+
+		var audioLink = new AudioLink(surface, audioOut);	
 		using var outputDevice = new WasapiOut(NAudio.CoreAudioApi.AudioClientShareMode.Exclusive, 10);
 
 		outputDevice.Init(audioLink);
