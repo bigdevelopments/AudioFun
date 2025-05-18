@@ -1,10 +1,12 @@
-﻿using System.Numerics;
+﻿using AudioComponents.Core;
 
-namespace AudioComponents;
+using System.Numerics;
 
-public class Constant : ComponentBase
+namespace AudioComponents.Audio;
+
+public class Constant : Component
 {
-	private readonly Output _output;
+	private readonly IOutputWriter _output;
 
 	public Constant(Vector2 value = default)
 	{

@@ -1,16 +1,17 @@
-﻿
-namespace AudioComponents;
+﻿using AudioComponents.Core;
 
-public class HybridComponent : ComponentBase
+namespace AudioComponents.Audio;
+
+public class HybridComponent : Component
 {
-	private readonly List<ComponentBase> _components;
+	private readonly List<Component> _components;
 
 	public HybridComponent()
 	{
 		_components = new();
 	}
 
-	public T Add<T>(string name, T component) where T : ComponentBase
+	public T Add<T>(string name, T component) where T : Component
 	{
 		_components.Add(component);
 		Surface.Add(Name + "." + name, component);

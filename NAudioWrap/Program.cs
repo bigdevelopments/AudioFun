@@ -1,4 +1,5 @@
-﻿using AudioComponents;
+﻿using AudioComponents.Audio;
+using AudioComponents.Core;
 
 using NAudio.Wave;
 using NAudioTest;

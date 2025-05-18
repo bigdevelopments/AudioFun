@@ -1,4 +1,4 @@
-﻿using AudioComponents;
+﻿using AudioComponents.Core;
 
 using NAudio.Wave;
 

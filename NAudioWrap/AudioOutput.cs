@@ -1,11 +1,12 @@
-﻿using AudioComponents;
+﻿using AudioComponents.Audio;
+using AudioComponents.Core;
 
 namespace NAudioTest;
 
 /// <summary>
 /// Just collects the input values and makes them available to the sound card.
 /// </summary>
-internal class AudioOutput : ComponentBase
+internal class AudioOutput : Component
 {
 	// only inputs, the output are your speakers
 	private readonly Input _input;

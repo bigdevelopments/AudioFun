@@ -1,11 +1,13 @@
-﻿namespace AudioComponents;
+﻿using AudioComponents.Core;
 
-public class Splitter : ComponentBase
+namespace AudioComponents.Audio;
+
+public class Splitter : Component
 {
 	// inputs and outputs
-	private readonly Input _input;
-	private readonly Output _output1;
-	private readonly Output _output2;
+	private readonly IInputReader _input;
+	private readonly IOutputWriter _output1;
+	private readonly IOutputWriter _output2;
 
 	public Splitter()
 	{

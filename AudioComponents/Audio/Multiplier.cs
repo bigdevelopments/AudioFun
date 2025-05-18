@@ -1,11 +1,13 @@
-﻿namespace AudioComponents;
+﻿using AudioComponents.Core;
 
-public class Multiplier : ComponentBase
+namespace AudioComponents.Audio;
+
+public class Multiplier : Component
 {
 	// inputs and outputs
-	private readonly Input _input1;
-	private readonly Input _input2;
-	private readonly Output _output;
+	private readonly IInputReader _input1;
+	private readonly IInputReader _input2;
+	private readonly IOutputWriter _output;
 
 	public Multiplier()
 	{

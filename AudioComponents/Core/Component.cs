@@ -1,6 +1,8 @@
-﻿namespace AudioComponents;
+﻿using AudioComponents.Audio;
 
-public abstract class ComponentBase
+namespace AudioComponents.Core;
+
+public abstract class Component
 {
 	// single inputs and outputs
 	private readonly Dictionary<string, Input> _inputs = new Dictionary<string, Input>(StringComparer.OrdinalIgnoreCase);
@@ -12,28 +14,30 @@ public abstract class ComponentBase
 	private int _sampleRate;
 	private int _bufferSize;
 
-	public virtual void Initialise(int sampleRate, int bufferSize)
+	public void Initialise(int sampleRate, int bufferSize)
 	{ 
 		_sampleRate = sampleRate;
 		_bufferSize = bufferSize;
+		OnInitialise(sampleRate, bufferSize);
 	}
+
+	public virtual void OnInitialise(int sampleRate, int bufferSize)
+	{
+		// left to derived classes
+	}
+
 
 	public void OnAdd(ComponentSurface surface, string name)
 	{
 		if (_name != null) throw new InvalidOperationException("Already added");
 		_surface = surface;
 		_name = name;
-		OnAdded(surface, name);
 	}
 
-	protected virtual void OnAdded(ComponentSurface bse, string name)
+	public virtual Message Notify(Message message)
 	{
-		// no implementation, leave to derived classes
-	}
-
-	public virtual void Notify(Message message)
-	{
-		// no implementation, leave to derived classes
+		// if not answered by derived class, nothing to do
+		return Message.Ok;
 	}
 
 	public IInput GetInput(string name)
@@ -73,7 +77,7 @@ public abstract class ComponentBase
 	}
 
 
-	protected Output AddOutput(string name)
+	protected IOutputWriter AddOutput(string name)
 	{
 		if (_outputs.ContainsKey(name))
 		{

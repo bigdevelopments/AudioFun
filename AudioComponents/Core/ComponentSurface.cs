@@ -1,20 +1,20 @@
-﻿namespace AudioComponents;
+﻿namespace AudioComponents.Core;
 
 /// <summary>
 /// The surface holds all the components, including hybrids and handles the ticking
 /// </summary>
 public class ComponentSurface
 {
-	private readonly Dictionary<string, ComponentBase> _components;
+	private readonly Dictionary<string, Component> _components;
 	private int _sampleRate;
 	private int _bufferSize;	
 
 	public ComponentSurface()
 	{
-		_components = new Dictionary<string, ComponentBase>(StringComparer.OrdinalIgnoreCase);	
+		_components = new Dictionary<string, Component>(StringComparer.OrdinalIgnoreCase);	
 	}
 
-	public T Add<T>(string name, T component) where T: ComponentBase
+	public T Add<T>(string name, T component) where T: Component
 	{
 		if (_components.ContainsKey(name))
 			throw new ArgumentException($"Component with name {name} already exists.");
@@ -53,10 +53,10 @@ public class ComponentSurface
 		var output = sourceComponent.GetOutput(sourceOutput);
 		if (output == null) throw new ArgumentException($"Output [{source}.{sourceOutput}] not found.");
 
-		input.FeedFrom(output);
+		input.ConnectTo(output);
 	}
 
-	public ComponentBase GetComponent(string name)
+	public Component GetComponent(string name)
 	{
 		_components.TryGetValue(name, out var component);
 		return component;

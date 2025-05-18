@@ -1,13 +1,15 @@
-﻿using System.Numerics;
+﻿using AudioComponents.Core;
 
-namespace AudioComponents;
+using System.Numerics;
 
-public class SineOscillator : ComponentBase
+namespace AudioComponents.Audio;
+
+public class SineOscillator : Component
 {
 	// inputs and outputs
-	private readonly Input _frequency;
-	private readonly Input  _amplitude;
-	private readonly Output _output;
+	private readonly IInputReader _frequency;
+	private readonly IInputReader _amplitude;
+	private readonly IOutputWriter _output;
 
 	// state
 	private float _phase;
@@ -22,7 +24,7 @@ public class SineOscillator : ComponentBase
 	// tick
 	public override void Tick()
 	{
-		float phaseIncrement = (2f * MathF.PI * _frequency.Value.X) / SampleRate;
+		float phaseIncrement = 2f * MathF.PI * _frequency.Value.X / SampleRate;
 		_phase += phaseIncrement;
 		if (_phase >= 2f * MathF.PI) _phase -= 2f * MathF.PI;
 		_output.Value = new Vector2(_amplitude.Value.X * MathF.Sin(_phase), _amplitude.Value.Y * MathF.Sin(_phase));
