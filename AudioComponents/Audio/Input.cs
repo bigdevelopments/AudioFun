@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace AudioComponents.Audio;
+﻿namespace AudioComponents.Audio;
 
 /// <summary>
 /// An Input is pretty much just a named reference to an Output

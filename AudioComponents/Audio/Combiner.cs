@@ -1,6 +1,4 @@
-﻿using AudioComponents.Core;
-
-namespace AudioComponents.Audio;
+﻿namespace AudioComponents.Audio;
 
 public class Combiner : Component
 {

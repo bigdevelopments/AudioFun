@@ -1,7 +1,4 @@
-﻿using AudioComponents.Core;
-using AudioComponents.Midi;
-
-namespace AudioComponents.Audio;
+﻿namespace AudioComponents.Audio;
 
 public class Adsr : Component
 {
@@ -113,7 +110,11 @@ public class Adsr : Component
 				break;
 
 			default: // idle state, do nothing
-				break;	
+				break;
 		}
+
+		// and set the output value
+		_output.Value = new Vector2(_level, _level);
+
 	}
 }

@@ -1,8 +1,4 @@
-﻿using AudioComponents.Core;
-
-using System.Numerics;
-
-namespace AudioComponents.Audio;
+﻿namespace AudioComponents.Audio;
 
 public class Constant : Component
 {
