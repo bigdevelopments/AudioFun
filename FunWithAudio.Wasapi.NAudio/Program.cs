@@ -1,6 +1,8 @@
 ﻿using AudioComponents.Audio;
 using AudioComponents.Core;
 
+using MidiInterop;
+
 using NAudio.Wave;
 using NAudioTest;
 
@@ -8,6 +10,9 @@ class Program
 {
 	public static void Main(string[] args)
 	{
+		var midi = new MidiDevices();
+		midi.Inputs[0]?.Start(null);
+
 		ComponentSurface surface = new ComponentSurface();
 
 		var audioOut = surface.Add("audio-out", new AudioOutput());
@@ -42,5 +47,6 @@ class Program
 		outputDevice.Init(audioLink);
 		outputDevice.Play();
 		while (outputDevice.PlaybackState == PlaybackState.Playing) Thread.Sleep(1000);
+		Console.ReadLine();
 	}
 }

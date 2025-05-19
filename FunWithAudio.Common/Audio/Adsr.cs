@@ -16,8 +16,6 @@ public class Adsr : Component
 	private AdsrState _state;   // A, S, S or R
 	private float _topLevel;    // 0-1 as the maximum amplitude
 	private float _level;       // 0-1 as the current amplitude
-	private float _time;        // time in seconds in the current state
-	private float _timeScale;   // time in seconds per sample
 
 	public Adsr(int polyphony)
 	{
@@ -33,30 +31,21 @@ public class Adsr : Component
 		// initial state
 		_state = AdsrState.Idle;
 		_topLevel = 0;
-		_time = 0;
 		_level = 0;
 	}
 
-	public override void OnInitialise(int sampleRate, int bufferSize)
-	{
-		// set the time scale according to sample rate (tick rate)
-		_timeScale = 1f / sampleRate;
-	}
-
-	public override Message Notify(Message message)
+	public override Message OnNotify(Message message)
 	{
 		if (MidiMessage.IsNoteOn(message, out var _, out var _, out var velocity))
 		{
 			_state = AdsrState.Attack;
 			_topLevel = velocity / 127f;
-			_time = 0;
 			return Message.Ok;
 		}
 
 		if (MidiMessage.IsNoteOff(message, out var _, out var _, out var _))
 		{
 			_state = AdsrState.Release;
-			_time = 0;
 			return Message.Ok;
 		}
 
@@ -65,47 +54,41 @@ public class Adsr : Component
 
 	public override void Tick()
 	{
-		// update the time
-		_time += _timeScale;
-
 		switch (_state)
 		{
 			case AdsrState.Attack:
-				
-				_level += _timeScale / _attack.Value.X;
+
+				_level += _attack.Value.X * OneOverSampleRate;
 				if (_level >= _topLevel)
 				{
 					_level = _topLevel;
 					_state = AdsrState.Decay;
-					_time = 0;
 				}
 				break;
 
 			case AdsrState.Decay:
-				
+
 				// decay phase
-				_level -= _timeScale / _decay.Value.X * (_topLevel - _sustain.Value.X);
+				_level -= (_topLevel - _sustain.Value.X) * OneOverSampleRate;
 				if (_level <= _sustain.Value.X)
 				{
 					_level = _sustain.Value.X;
 					_state = AdsrState.Sustain;
-					_time = 0;
 				}
 				break;
-			
+
 			case AdsrState.Sustain:
 
 				_level = _sustain.Value.X;
 				break;
 
 			case AdsrState.Release:
-				
-				_level -= _timeScale / _release.Value.X * _sustain.Value.X;
+
+				_level -= (_sustain.Value.X - _release.Value.X) * OneOverSampleRate;
 				if (_level <= 0)
 				{
 					_level = 0;
 					_state = AdsrState.Idle;
-					_time = 0;
 				}
 				break;
 
@@ -115,6 +98,5 @@ public class Adsr : Component
 
 		// and set the output value
 		_output.Value = new Vector2(_level, _level);
-
 	}
 }

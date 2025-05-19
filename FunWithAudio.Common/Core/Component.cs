@@ -12,11 +12,13 @@ public abstract class Component
 	private string _name;
 
 	private int _sampleRate;
+	private float _oneOverSampleRate;
 	private int _bufferSize;
 
 	public void Initialise(int sampleRate, int bufferSize)
 	{ 
 		_sampleRate = sampleRate;
+		_oneOverSampleRate = 1f / sampleRate;
 		_bufferSize = bufferSize;
 		OnInitialise(sampleRate, bufferSize);
 	}
@@ -34,7 +36,7 @@ public abstract class Component
 		_name = name;
 	}
 
-	public virtual Message Notify(Message message)
+	public virtual Message OnNotify(Message message)
 	{
 		// if not answered by derived class, nothing to do
 		return Message.Ok;
@@ -104,5 +106,6 @@ public abstract class Component
 	public ComponentSurface Surface => _surface;
 	public string Name => _name;
 	public int SampleRate => _sampleRate;
+	public float OneOverSampleRate => _oneOverSampleRate;
 	public int BufferSize => _bufferSize;
 }
