@@ -1,7 +1,7 @@
-﻿using AudioComponents.Core;
-using AudioComponents.Midi;
+﻿using FunWithAudio.Common.Core;
+using FunWithAudio.Common.Midi;
 
-namespace MidiInterop;
+namespace FunWithAudio.Midi;
 
 public class MidiInput
 {

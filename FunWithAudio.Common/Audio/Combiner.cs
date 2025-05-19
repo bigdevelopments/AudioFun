@@ -1,4 +1,4 @@
-﻿namespace AudioComponents.Audio;
+﻿namespace FunWithAudio.Common.Audio;
 
 public class Combiner : Component
 {
@@ -16,6 +16,6 @@ public class Combiner : Component
 
 	public override void Tick()
 	{
-		_output.Value = new System.Numerics.Vector2(_input1.Value.X, _input2.Value.Y);
+		_output.Value = new Vector2(_input1.Value.X, _input2.Value.Y);
 	}
 }

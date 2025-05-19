@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace MidiInterop;
+namespace FunWithAudio.Midi;
 
 public class MidiDevices
 {

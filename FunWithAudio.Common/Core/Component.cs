@@ -1,6 +1,4 @@
-﻿using AudioComponents.Audio;
-
-namespace AudioComponents.Core;
+﻿namespace FunWithAudio.Common.Core;
 
 public abstract class Component
 {

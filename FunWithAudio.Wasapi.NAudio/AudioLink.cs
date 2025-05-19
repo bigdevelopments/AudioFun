@@ -1,8 +1,8 @@
-﻿using AudioComponents.Core;
+﻿using FunWithAudio.Common.Core;
 
 using NAudio.Wave;
 
-namespace NAudioTest;
+namespace FunWithAudio.Wasapi.NAudio;
 
 internal class AudioLink : ISampleProvider
 {

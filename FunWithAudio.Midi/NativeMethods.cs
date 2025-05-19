@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using System.Text;
 
-namespace MidiInterop;
+namespace FunWithAudio.Midi;
 
 public class NativeMethods
 {
@@ -29,8 +29,8 @@ public class NativeMethods
 	[DllImport("winmm.dll")]
 	public static extern int midiOutGetDevCaps(int uDeviceID, ref MidiOutCaps lpMidiOutCaps, uint cbMidiOutCaps);
 
-	//[DllImport("winmm.dll")]
-	//public static extern int midiOutOpen(ref int handle, int deviceID, MidiInProc proc, int instance, int flags);
+	[DllImport("winmm.dll")]
+	public static extern int midiOutOpen(ref int handle, int deviceID, MidiInProc proc, int instance, int flags);
 
 	[DllImport("winmm.dll")]
 	public static extern int midiOutShortMsg(int handle, int message);
@@ -116,7 +116,7 @@ public struct MIDIINCAPS
 {
 	public ushort wMid;
 	public ushort wPid;
-	public uint vDriverVersion;     // MMVERSION
+	public uint vDriverVersion;
 	[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
 	public string szPname;
 	public uint dwSupport;

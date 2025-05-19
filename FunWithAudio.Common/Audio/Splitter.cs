@@ -1,4 +1,4 @@
-﻿namespace AudioComponents.Audio;
+﻿namespace FunWithAudio.Common.Audio;
 
 public class Splitter : Component
 {

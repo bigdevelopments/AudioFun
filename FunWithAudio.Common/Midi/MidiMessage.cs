@@ -1,4 +1,6 @@
-﻿namespace AudioComponents.Midi;
+﻿using FunWithAudio.Common.Core;
+
+namespace FunWithAudio.Common.Midi;
 
 public static class MidiMessage
 {

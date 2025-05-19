@@ -1,4 +1,4 @@
-﻿namespace AudioComponents.Audio;
+﻿namespace FunWithAudio.Common.Audio;
 
 /// <summary>
 /// An output is purely a name, and a Vector2 twin 32bit float value.

@@ -1,4 +1,4 @@
-﻿namespace AudioComponents.Midi;
+﻿namespace FunWithAudio.Common.Midi;
 
 public static class MidiScales
 {

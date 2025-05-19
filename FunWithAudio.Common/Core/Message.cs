@@ -1,4 +1,4 @@
-﻿namespace AudioComponents.Core;
+﻿namespace FunWithAudio.Common.Core;
 
 public struct Message
 {
@@ -22,10 +22,10 @@ public struct Message
 			switch (Data & 0xf00000)
 			{
 				case 0x800000:
-					return $"NoteOff {(Data >> 16) & 0xf}:{Maths.GetNoteName((Data >> 8) & 0xff)}:{Data & 0xff}";
+					return $"NoteOff {Data >> 16 & 0xf}:{Maths.GetNoteName(Data >> 8 & 0xff)}:{Data & 0xff}";
 
 				case 0x900000:
-					return $"NoteOn  {(Data >> 16) & 0xf}:{Maths.GetNoteName((Data >> 8) & 0xff)}:{Data & 0xff}";
+					return $"NoteOn  {Data >> 16 & 0xf}:{Maths.GetNoteName(Data >> 8 & 0xff)}:{Data & 0xff}";
 			}
 
 			return "Midi";

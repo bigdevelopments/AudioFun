@@ -1,4 +1,4 @@
-﻿namespace AudioComponents.Audio;
+﻿namespace FunWithAudio.Common.Audio;
 
 /// <summary>
 /// An Input is pretty much just a named reference to an Output

@@ -1,6 +1,4 @@
-﻿namespace AudioComponents.Audio;
-
-public interface IOutput
+﻿public interface IOutput
 {
 	string Name { get; }
 }

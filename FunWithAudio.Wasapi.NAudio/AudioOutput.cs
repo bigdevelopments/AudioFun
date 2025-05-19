@@ -1,7 +1,7 @@
-﻿using AudioComponents.Audio;
-using AudioComponents.Core;
+﻿using FunWithAudio.Common.Audio;
+using FunWithAudio.Common.Core;
 
-namespace NAudioTest;
+namespace FunWithAudio.Wasapi.NAudio;
 
 /// <summary>
 /// Just collects the input values and makes them available to the sound card.

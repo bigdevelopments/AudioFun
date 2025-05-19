@@ -1,10 +1,8 @@
-﻿using AudioComponents.Audio;
-using AudioComponents.Core;
-
-using MidiInterop;
-
+﻿using FunWithAudio.Common.Audio;
+using FunWithAudio.Common.Core;
+using FunWithAudio.Midi;
+using FunWithAudio.Wasapi.NAudio;
 using NAudio.Wave;
-using NAudioTest;
 
 class Program
 {

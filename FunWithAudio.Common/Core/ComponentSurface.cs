@@ -1,4 +1,4 @@
-﻿namespace AudioComponents.Core;
+﻿namespace FunWithAudio.Common.Core;
 
 /// <summary>
 /// The surface holds all the components, including hybrids and handles the ticking

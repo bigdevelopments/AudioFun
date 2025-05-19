@@ -10,8 +10,4 @@
     <ProjectReference Include="..\FunWithAudio.Common\FunWithAudio.Common.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="PolyphonicBridge.cs" />
-  </ItemGroup>
-
 </Project>

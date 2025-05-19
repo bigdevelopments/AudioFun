@@ -1,4 +1,4 @@
-﻿namespace AudioComponents;
+﻿namespace FunWithAudio.Common;
 
 public class Maths
 {

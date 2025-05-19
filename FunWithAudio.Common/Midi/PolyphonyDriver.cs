@@ -1,5 +1,6 @@
-﻿using AudioComponents.Audio;
-namespace AudioComponents.Midi;
+﻿using FunWithAudio.Common.Audio;
+using FunWithAudio.Common.Core;
+namespace FunWithAudio.Common.Midi;
 
 /// <summary>
 /// A polyphonic driver assigns incoming MIDI information into polyphonic lanes
