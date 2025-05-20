@@ -11,9 +11,14 @@ public class MidiInput
 	// native handle
 	private nint _handle;
 
+	// we need to maintain this, otherwise the garbage collector will remove it
+	// and we will get a crash when the callback is called
+	private readonly MidiInProc _handler;
+
 	internal MidiInput(string name)
 	{ 
 		_handle = nint.Zero;
+		_handler = HandleMessage;
 	}
 
 	public void Start(Component target)
@@ -22,7 +27,7 @@ public class MidiInput
 		_target = target;
 
 		// start things off
-		int result = NativeMethods.InOpen(out _handle, 0, HandleMessage, 123, 0x30000);
+		int result = NativeMethods.InOpen(out _handle, 0, _handler, 123, 0x30000);
 		NativeMethods.midiInStart(_handle);
 	}
 

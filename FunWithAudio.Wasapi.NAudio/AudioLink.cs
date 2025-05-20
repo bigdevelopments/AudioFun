@@ -21,6 +21,7 @@ internal class AudioLink : ISampleProvider
 
 	public int Read(float[] buffer, int offset, int count)
 	{
+		Thread.CurrentThread.Priority = ThreadPriority.Highest;
 
 		if (count % 2 != 0) throw new ArgumentException("Buffer size must be even.");
 		for (int index = 0; index < count; index += 2)

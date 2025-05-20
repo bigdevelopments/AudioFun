@@ -1,23 +1,37 @@
 ﻿using FunWithAudio.Common.Audio;
 using FunWithAudio.Common.Core;
+using FunWithAudio.Common.Midi;
 using FunWithAudio.Midi;
 using FunWithAudio.Wasapi.NAudio;
+
 using NAudio.Wave;
+
+using System.Diagnostics;
 
 class Program
 {
 	public static void Main(string[] args)
 	{
-		var midi = new MidiDevices();
-		midi.Inputs[0]?.Start(null);
+		Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.RealTime;
 
 		ComponentSurface surface = new ComponentSurface();
+		var driver = surface.Add("midi-driver", new PolyphonyDriver(4));
+
+		var midi = new MidiDevices();
+		if (midi.Inputs.Length > 0)
+		{
+			midi.Inputs[0].Start(driver);
+		}
+		else
+		{
+			Console.WriteLine("No MIDI devices found.");
+		}
 
 		var audioOut = surface.Add("audio-out", new AudioOutput());
 
 		surface.Add("440hz", new Constant(440f));
 		surface.Add("442hz", new Constant(442f));
-		surface.Add("amplitude", new Constant(0.5f));
+		surface.Add("amplitude", new Constant(0.15f));
 		surface.Add("sine-osc", new SineOscillator());
 		surface.Add("combiner", new Combiner());
 
@@ -28,23 +42,30 @@ class Program
 		hybrid.ExposeInput("osc", "amplitude", "amplitude");
 		hybrid.ExposeOutput("osc", "out", "out");
 
-		surface.Connect("440hz", "out", "sine-osc", "frequency");
-		surface.Connect("442hz", "out", "hybrid", "frequency");
-		surface.Connect("amplitude", "out", "sine-osc", "amplitude");
-		surface.Connect("amplitude", "out", "hybrid", "amplitude");
+		if (midi.Inputs.Length ==0)
+		{
+			surface.Connect("440hz", "out", "sine-osc", "frequency");
+			surface.Connect("442hz", "out", "hybrid", "frequency");
+			surface.Connect("amplitude", "out", "sine-osc", "amplitude");
+			surface.Connect("amplitude", "out", "hybrid", "amplitude");
+		}
+		else
+		{
+			surface.Connect("midi-driver", "frequency-0", "sine-osc", "frequency");
+			surface.Connect("midi-driver", "amplitude-0", "sine-osc", "amplitude");
+		}
 		surface.Connect("sine-osc", "out", "combiner", "in-1");
 		surface.Connect("hybrid", "out", "combiner", "in-2");
 		surface.Connect("combiner", "out", "audio-out", "in");
 
-
 		surface.Initialise(48000, 1000);
-
-		var audioLink = new AudioLink(surface, audioOut);	
+		
+		var audioLink = new AudioLink(surface, audioOut);
 		using var outputDevice = new WasapiOut(NAudio.CoreAudioApi.AudioClientShareMode.Exclusive, 10);
 
 		outputDevice.Init(audioLink);
 		outputDevice.Play();
 		while (outputDevice.PlaybackState == PlaybackState.Playing) Thread.Sleep(1000);
-		Console.ReadLine();
+		midi.Inputs[0].Stop();
 	}
 }
