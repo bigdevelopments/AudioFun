@@ -1,0 +1,44 @@
+{
+	"sample_rate": 48000,
+	"latency": 10,
+
+	"units": [
+		{
+			"name": "test/oscillator_section",
+			"elements": {
+				"osc1": "std/oscillator",
+				"inv": "std/inverter"
+			},
+			"connections": {
+				"inv:in": "osc1:out"
+			},
+			"expose": {
+				"freq": "osc_1:freq",
+				"amp": "osc_1:amp",
+				"out": "inv:out"
+			}
+		},
+		{
+			"name": "test/test",
+			"elements": {
+				"440hz": "std/constant(440, 440)",
+				"442hz": "std/constant(442)",
+				"amplitude": "std/constant(0.15)",
+				"osc1": "std/sine_oscillator",
+				"osc2": "std/sine_oscillator",
+				"combiner": "std/combiner"
+			},
+			"connections": {
+				"osc1:freq": "440hz:out",
+				"osc1:amp": "amplitude:out",
+				"osc2:freq": "442hz:out",
+				"osc2:amp": "amplitude:out",
+				"combiner:in1": "osc1:out",
+				"combiner: in2":  "osc2:out"
+			},
+			"expose": {
+				"out": "combiner:out"
+			}
+		}
+	]
+}
