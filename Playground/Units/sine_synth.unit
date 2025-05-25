@@ -4,8 +4,8 @@
 		"midi_driver": "poly_driver(4)",
 		"level": "constant(0.25)",
 		"osc1": "sine_osc",
-		"osc2": "sine_osc",
-		"osc3": "sine_osc",
+		"osc2": "naive_saw",
+		"osc3": "naive_pulse",
 		"osc4": "sine_osc",
 		"adder": "adder(4)",
 		"multiplier": "multiplier"

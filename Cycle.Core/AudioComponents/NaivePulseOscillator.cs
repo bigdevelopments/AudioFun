@@ -1,0 +1,39 @@
+﻿using System.Net.Http.Headers;
+
+namespace Cycle.Core.AudioComponents;
+
+/// <summary>
+/// Generates non-band-limiting pulse waveforms, set duty to 0.5 for a square wave.
+/// </summary>
+[Primitive("naive_pulse", "Simple non band-limiting pulse oscillator")]
+public class NaivePulseOscillator : Component
+{
+	// inputs and outputs
+	private readonly SignalInput _frequency;
+	private readonly SignalInput _amplitude;
+	private readonly SignalInput _duty;
+	private readonly SignalOutput _output;
+
+	// state
+	private float _phase;
+
+	public NaivePulseOscillator()
+	{
+		_frequency = AddSignalInput("frq");
+		_amplitude = AddSignalInput("amp");
+		_duty = AddSignalInput("duty", new Vector2(0.5f, 0.5f));
+		_output = AddSignalOutput("out");
+	}
+
+	// tick
+	public override void Tick()
+	{
+		float phaseIncrement = _frequency.Value.X / SampleRate;
+		_phase += phaseIncrement;
+		_phase %= 1f;
+
+		_output.Value = _phase > _duty.Value.X
+			? new Vector2(_amplitude.Value.X, _amplitude.Value.X)
+			: new Vector2(-_amplitude.Value.X, -_amplitude.Value.X);
+	}
+}

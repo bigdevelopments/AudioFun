@@ -55,13 +55,13 @@ public abstract class Component
 		return connection;
 	}
 
-	protected SignalInput AddSignalInput(string name)
+	protected SignalInput AddSignalInput(string name, Vector2 disconnectedValue = default)
 	{
 		if (_connections.ContainsKey(name))
 		{
 			throw new ArgumentException($"Connection with name {name} already exists.");
 		}
-		var input = new SignalInput();
+		var input = new SignalInput(disconnectedValue);
 		_connections.Add(name, input);
 		return input;
 	}

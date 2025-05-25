@@ -9,7 +9,13 @@
 /// </remarks>
 public class SignalInput : Connection
 {
+	private readonly Vector2 _disconnectedValue;
 	private SignalOutput _connectedTo;
+
+	public SignalInput(Vector2 disconnectedValue = default)
+	{
+		_disconnectedValue = disconnectedValue;
+	}
 
 	public void ConnectTo(Connection connection)
 	{
@@ -25,6 +31,6 @@ public class SignalInput : Connection
 	public Vector2 Value
 	{
 		// value is the value of the output if connected, or zero if not connected
-		get => _connectedTo?.Value ?? Vector2.Zero;
+		get => _connectedTo?.Value ?? _disconnectedValue;
 	}
 }

@@ -21,10 +21,9 @@ public class SineOscillator : Component
 	// tick
 	public override void Tick()
 	{
-		float phaseIncrement = 2f * MathF.PI * _frequency.Value.X / SampleRate;
+		float phaseIncrement = _frequency.Value.X / SampleRate;
 		_phase += phaseIncrement;
-		if (_phase >= 2f * MathF.PI) _phase -= 2f * MathF.PI;
-		_output.Value = new Vector2(_amplitude.Value.X * MathF.Cos(_phase), _amplitude.Value.Y * MathF.Cos(_phase));
-		//_output.Value = new Vector2(_amplitude.Value.X * _phase, _amplitude.Value.X * _phase);
+		if (_phase >= 1f) _phase -= 1f;
+		_output.Value = new Vector2(_amplitude.Value.X * MathF.Cos(_phase * 2 * MathF.PI), _amplitude.Value.Y * MathF.Cos(_phase * 2 * MathF.PI));
 	}
 }
