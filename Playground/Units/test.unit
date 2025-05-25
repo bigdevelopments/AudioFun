@@ -1,0 +1,22 @@
+{
+	"name": "test_unit",
+	"elements": {
+		"440hz": "constant(440, 440)",
+		"442hz": "constant(442)",
+		"amplitude": "constant(0.25)",
+		"osc1": "sine_osc",
+		"osc2": "sine_osc",
+		"combiner": "combiner"
+	},
+	"connections": {
+		"osc1:frq": "440hz:out",
+		"osc1:amp": "amplitude:out",
+		"osc2:frq": "442hz:out",
+		"osc2:amp": "amplitude:out",
+		"combiner:in-1": "osc1:out",
+		"combiner: in-2": "osc2:out"
+	},
+	"expose": {
+		"out": "combiner:out"
+	}
+}
