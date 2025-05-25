@@ -32,15 +32,15 @@ Host host = new Host();
 
 // add in midi devices
 MidiInterface midiInterface = new MidiInterface();
-foreach (var midiInput in midiInterface.Inputs) host.Add(midiInput.Name, midiInput);
+foreach (var midiInput in midiInterface.Inputs) host.Add(midiInput.Name.ToLower(), midiInput);
 
 // add in the audio output
-var audioOut = host.Add("audio-out", componentFactory.Create("audio_out"));
+var audioOut = host.Add("audio_out", componentFactory.Create("audio_out"));
 
 // just add a test unit and connect it the audio output
 host.Add("unit", componentFactory.Create("sine_synth"));
-host.Connect("unit", "out", "audio-out", "in");
-host.Connect("LPK25", "out", "unit", "midi_in");
+host.Connect("unit", "out", "audio_out", "in");
+host.Connect(midiInterface.Inputs[0].Name.ToLower(), "out", "unit", "midi_in");
 
 
 // set sample rate
