@@ -2,11 +2,11 @@
 
 namespace Cycle.Midi;
 
-public class MidiDevices
+public class MidiInterface
 {
 	private MidiInputInterface[] _inputDevices;
 
-	public MidiDevices()
+	public MidiInterface()
 	{
 		Refresh();
 	}
@@ -23,6 +23,7 @@ public class MidiDevices
 			MIDIINCAPS caps = new MIDIINCAPS();
 			NativeMethods.midiInGetDevCaps(0, ref caps, (uint)Marshal.SizeOf(caps.GetType()));
 			_inputDevices[index] = new MidiInputInterface(caps.szPname);
+			_inputDevices[index].Start();
 		}
 	}
 }

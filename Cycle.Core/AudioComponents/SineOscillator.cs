@@ -1,4 +1,4 @@
-﻿namespace Cycle.Core.Audio;
+﻿namespace Cycle.Core.AudioComponents;
 
 [Primitive("sine_osc", "Simple sine wave oscillator")]
 public class SineOscillator : Component

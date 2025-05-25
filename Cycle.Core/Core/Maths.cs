@@ -1,4 +1,4 @@
-﻿namespace Cycle.Core;
+﻿namespace Cycle.Core.Core;
 
 public class Maths
 {

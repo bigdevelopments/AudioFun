@@ -1,44 +1,21 @@
 ﻿namespace Cycle.Core.Core;
 
-/// <summary>
-/// The surface holds all the components, including hybrids and handles the ticking
-/// </summary>
-public class ComponentSurface
+public class Unit : Component
 {
 	private readonly Dictionary<string, Component> _components;
-	private int _sampleRate;
 
-	public ComponentSurface()
+	public Unit()
 	{
-		_components = new Dictionary<string, Component>(StringComparer.OrdinalIgnoreCase);	
+		_components = new Dictionary<string, Component>(StringComparer.OrdinalIgnoreCase);
 	}
 
-	public T Add<T>(string name, T component) where T: Component
+	public T Add<T>(string name, T component) where T : Component
 	{
-		if (_components.ContainsKey(name))
-			throw new ArgumentException($"Component with name {name} already exists.");
-
-		_components.Add(name, component);
-		component.OnAdd(this, name);
+		_components[name] = component;
 		return component;
 	}
 
-	public void Initialise(int sampleRate)
-	{
-		_sampleRate = sampleRate;
-
-		foreach (var component in _components.Values)
-		{
-			component.Initialise(sampleRate);
-		}
-	}
-
-	public void Tick()
-	{
-		foreach (var component in _components.Values) component.Tick();
-	}
-
-	public void Connect(string target, string targetInput, string source, string sourceOutput)
+	public void Connect(string source, string sourceOutput, string target, string targetInput)
 	{
 		if (!_components.ContainsKey(source)) throw new ArgumentException($"Component {source} not found.");
 		if (!_components.ContainsKey(target)) throw new ArgumentException($"Component {target} not found.");
@@ -65,11 +42,26 @@ public class ComponentSurface
 		}
 	}
 
-	public Component GetComponent(string name)
+	public override void OnInitialise(int sampleRate)
 	{
-		_components.TryGetValue(name, out var component);
-		return component;
+		foreach (var component in _components.Values) component.Initialise(sampleRate);
 	}
 
-	public int SampleRate => _sampleRate;
+	public override void Tick()
+	{
+		foreach (var component in _components.Values) component.Tick();
+	}
+
+	public void ExposeConnection(string componentName, string connectionName, string externalName)
+	{
+		var component = _components.GetValueOrDefault(componentName);
+		if (component == null) throw new ArgumentException($"Component {component} not found.");
+
+		var connection = component.GetConnection(connectionName);
+		if (connection != null)
+		{
+			AddConnection(externalName, connection);
+			return;
+		}
+	}
 }

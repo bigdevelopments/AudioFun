@@ -1,4 +1,4 @@
-﻿namespace Cycle.Core.Audio;
+﻿namespace Cycle.Core.AudioComponents;
 
 public class Splitter : Component
 {

@@ -1,4 +1,4 @@
-﻿namespace Cycle.Core.Audio;
+﻿namespace Cycle.Core.AudioComponents;
 
 [Primitive("constant", "Represents an immutable value")]
 public class Constant : Component

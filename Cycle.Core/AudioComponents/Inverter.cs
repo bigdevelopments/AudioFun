@@ -1,4 +1,4 @@
-﻿namespace Cycle.Core.Audio;
+﻿namespace Cycle.Core.AudioComponents;
 
 [Primitive("inverter", "Combines the X signal of input 1 with the Y signal of input 2")]
 public class Inverter : Component

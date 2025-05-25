@@ -1,4 +1,4 @@
-﻿namespace Cycle.Core.Audio;
+﻿namespace Cycle.Core.AudioComponents;
 
 [Primitive("audio_out", "Simple stereo exit point for delivering stereo samples")]
 public class AudioOutput : Component

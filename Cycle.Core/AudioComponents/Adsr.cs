@@ -1,6 +1,6 @@
-﻿namespace Cycle.Core.Audio;
+﻿namespace Cycle.Core.AudioComponents;
 
-[Primitive("adder", "Simple ADSR envelope")]
+[Primitive("adsr", "Simple ADSR envelope")]
 public class Adsr : Component
 {
 	// the different ADSR states

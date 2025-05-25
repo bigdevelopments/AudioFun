@@ -1,4 +1,4 @@
-﻿namespace Cycle.Core.Audio;
+﻿namespace Cycle.Core.AudioComponents;
 
 [Primitive("multiplier", "Multiplies two inputs together")]
 public class Multiplier : Component
@@ -10,8 +10,8 @@ public class Multiplier : Component
 
 	public Multiplier() 
 	{
-		_input1 = AddSignalInput("in-1");
-		_input2 = AddSignalInput("in-2");
+		_input1 = AddSignalInput("in_1");
+		_input2 = AddSignalInput("in_2");
 		_output = AddSignalOutput("out");
 	}
 

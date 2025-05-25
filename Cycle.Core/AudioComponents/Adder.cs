@@ -1,4 +1,4 @@
-﻿namespace Cycle.Core.Audio;
+﻿namespace Cycle.Core.AudioComponents;
 
 [Primitive("adder", "Adds all the inputs together")]
 public class Adder : Component
@@ -20,7 +20,7 @@ public class Adder : Component
 		}
 
 		_inputs = new SignalInput[count];
-		for (int i = 0; i < count; i++) _inputs[i] = AddSignalInput($"in-{i + 1}");
+		for (int i = 0; i < count; i++) _inputs[i] = AddSignalInput($"in_{i + 1}");
 		_output = AddSignalOutput("out");
 	}
 

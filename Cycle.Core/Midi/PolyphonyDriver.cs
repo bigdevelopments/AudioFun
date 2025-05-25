@@ -28,7 +28,7 @@ public class PolyphonyDriver : Component
 
 	public PolyphonyDriver(params string[] parameters)
 	{
-		if (parameters?.Length < 1|| !int.TryParse(parameters[0], out var polyphony))
+		if (parameters?.Length < 1 || !int.TryParse(parameters[0], out var polyphony))
 		{
 			throw new ArgumentException("Polyphony driver requires at least one parameter: the polyphony level", nameof(parameters));
 		}
@@ -42,8 +42,8 @@ public class PolyphonyDriver : Component
 
 		if (polyphony < 0 || polyphony > 63) throw new Exception("Polyphony must be between 0 and 63.");
 		if (channelMask < 0 || channelMask > 0xffff) throw new Exception("Channel mask must be between 0 and 65535.");
-		
-		_midiInput = AddMidiInput("midi-in", MidiProc);
+
+		_midiInput = AddMidiInput("midi_in", MidiProc);
 
 		_notesInUse = new int[polyphony];
 
@@ -54,9 +54,9 @@ public class PolyphonyDriver : Component
 		for (int index = 0; index < polyphony; index++)
 		{
 			_notesInUse[index] = 0; // completeness :)
-			_frequencyOutputs[index] = AddSignalOutput($"frq-{index}");
-			_amplitudeOutputs[index] = AddSignalOutput($"amp-{index}");
-			_modulationOutputs[index] = AddSignalOutput($"mod-{index}");
+			_frequencyOutputs[index] = AddSignalOutput($"frq_{index + 1}");
+			_amplitudeOutputs[index] = AddSignalOutput($"amp_{index + 1}");
+			_modulationOutputs[index] = AddSignalOutput($"mod_{index + 1}");
 		}
 
 		_channelMask = (ushort)channelMask;

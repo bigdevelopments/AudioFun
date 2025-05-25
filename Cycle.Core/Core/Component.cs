@@ -4,9 +4,7 @@ public abstract class Component
 {
 	// single inputs and outputs
 	private readonly Dictionary<string, Connection> _connections = new Dictionary<string, Connection>(StringComparer.OrdinalIgnoreCase);
-
-	private string _name;
-
+	
 	// an isolated component has outputs decoupled from inputs, so it can be used in a circuit breaker
 	private bool _isolated;
 
@@ -35,12 +33,6 @@ public abstract class Component
 	}
 
 
-	public void OnAdd(ComponentSurface surface, string name)
-	{
-		if (_name != null) throw new InvalidOperationException("Already added");
-		_name = name;
-	}
-
 	public virtual Message OnNotify(Message message)
 	{
 		// if not answered by derived class, nothing to do
@@ -52,18 +44,6 @@ public abstract class Component
 		_connections.TryGetValue(name, out var connection);
 		return connection;
 	}
-
-	//public IInput GetInput(string name)
-	//{
-	//	if (_connections.TryGetValue(name, out var input)) return input as IInput;
-	//	return null;
-	//}
-
-	//public IOutput GetOutput(string name)
-	//{
-	//	if (_connections.TryGetValue(name, out var output)) return output as IOutput;
-	//	return null;
-	//}
 
 	protected Connection AddConnection(string name, Connection connection)
 	{
@@ -152,8 +132,6 @@ public abstract class Component
 
 
 	public abstract void Tick();
-
-	public string Name => _name;
 	public int SampleRate => _sampleRate;
 	public float OneOverSampleRate => _oneOverSampleRate;
 	public int BufferSize => _bufferSize;
