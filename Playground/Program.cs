@@ -19,7 +19,6 @@ GCSettings.LatencyMode = GCLatencyMode.SustainedLowLatency;
 //	try { Assembly.LoadFrom(assembly); } catch { }
 //}
 
-
 // this thing create components for us
 ComponentFactory componentFactory = new ComponentFactory();
 

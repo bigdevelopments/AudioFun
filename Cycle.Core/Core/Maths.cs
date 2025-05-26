@@ -2,8 +2,23 @@
 
 public class Maths
 {
+	// a quarter sine wave table for fast sine calculations
+	private const int QuarterSineTableSize = 256;
+	private const int FullSineTableSize = QuarterSineTableSize * 4;
+	private static readonly float[] _quarterSine = new float[QuarterSineTableSize];
+
+	// notes in the diatonic scale
 	private static readonly string[] Notes = { "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#" };
+
+	static Maths()
+	{
+		// precompute the quarter sine wave table
+		double divisor = Math.PI / (2d * _quarterSine.Length);
+		for (int index = 0; index < _quarterSine.Length; index++) _quarterSine[index] = (float)Math.Sin(index * divisor);
+	}
+
 	public static double NoteToFrequency(float note) => MathF.Pow(2, (note - 57f) / 12f) * 440f;
+
 
 	public static double VelocityToAmplitude(float velocity)
 	{
@@ -22,5 +37,31 @@ public class Maths
 
 	public static float Min(float lhs, float rhs) => lhs <= rhs ? lhs : rhs;
 	public static float Max(float lhs, float rhs) => lhs > rhs ? lhs : rhs;
-}
 
+	private static float GetSine(int index)
+	{
+		if (index < QuarterSineTableSize) return _quarterSine[index];
+		if (index < 2 * QuarterSineTableSize) return _quarterSine[2 * QuarterSineTableSize - index - 1];
+		if (index < 3 * QuarterSineTableSize) return -_quarterSine[index - 2 * QuarterSineTableSize];
+		return -_quarterSine[FullSineTableSize - index - 1];
+	}
+
+	public static float Sin(float phase)
+	{
+		// keep phase in the range 0-1, the if saves the expensive flooring if not needed
+		if (phase < 0 || phase > 1) phase -= MathF.Floor(phase); 
+
+		// work out the left and right sample and factor
+		float scaledIndex = phase * FullSineTableSize;
+		int left = (int)scaledIndex;
+		int right = (left + 1) & 1023;
+		float frac = scaledIndex - left;
+
+		// get neighbouring sine values
+		float from = GetSine(left);
+		float to = GetSine(right);
+
+		// linear interpolate between them
+		return from + (to - from) * frac;
+	}
+}

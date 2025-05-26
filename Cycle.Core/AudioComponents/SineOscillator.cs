@@ -24,6 +24,11 @@ public class SineOscillator : Component
 		float phaseIncrement = _frequency.Value.X / SampleRate;
 		_phase += phaseIncrement;
 		if (_phase >= 1f) _phase -= 1f;
-		_output.Value = new Vector2(_amplitude.Value.X * MathF.Cos(_phase * 2 * MathF.PI), _amplitude.Value.Y * MathF.Cos(_phase * 2 * MathF.PI));
+
+		// default, but slow
+		//_output.Value = new Vector2(_amplitude.Value.X * MathF.Sin(_phase * 2 * MathF.PI), _amplitude.Value.Y * MathF.Sin(_phase * 2 * MathF.PI));
+
+		// this sin approximation is about 3x faster on i9-13900K
+		_output.Value = new Vector2(_amplitude.Value.X * Maths.Sin(_phase), _amplitude.Value.Y * Maths.Sin(_phase));
 	}
 }

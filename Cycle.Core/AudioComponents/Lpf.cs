@@ -1,0 +1,37 @@
+﻿namespace Cycle.Core.AudioComponents;
+
+// based off https://www.musicdsp.org/en/latest/Filters/29-resonant-filter.html
+
+[Primitive("lpf", "Low pass resonant filter")]
+public class Lpf : Component
+{
+	private readonly SignalInput _input;
+	private readonly SignalInput _cutOff;
+	private readonly SignalInput _resonance;
+	private readonly SignalOutput _output;
+
+	private Vector2 _h0;
+	private Vector2 _h1;
+	private Vector2 _h2;
+	private Vector2 _h3;
+
+	public Lpf()
+	{
+		_input = AddSignalInput("in");
+		_cutOff = AddSignalInput("frq");
+		_resonance = AddSignalInput("res");
+		_output = AddSignalOutput("out");
+	}
+
+	public override void Tick()
+	{
+		Vector2 freq = new Vector2(2f * MathF.Sin(MathF.PI * _cutOff.Value.X / SampleRate), 2f * MathF.Sin(MathF.PI * _cutOff.Value.Y / SampleRate));
+		Vector2 feedback = _resonance.Value + _resonance.Value / (Vector2.One - freq);
+
+		_h0 += freq * (_input.Value - _h0 + feedback * (_h0 - _h1));
+		_h1 += freq * (_h0 - _h1);
+		_h2 += freq * (_h1 - _h2);
+		_h3 += freq * (_h2 - _h3);
+		_output.Value = _h3;
+	}
+}

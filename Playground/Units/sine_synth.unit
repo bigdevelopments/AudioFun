@@ -8,7 +8,10 @@
 		"osc3": "naive_pulse",
 		"osc4": "sine_osc",
 		"adder": "adder(4)",
-		"multiplier": "multiplier"
+		"multiplier": "multiplier",
+		"lpf": "lpf",
+		"cutoff": "constant(440)",
+		"res": "constant(0.2)"
 	},
 	"connections": {
 		"osc1:frq": "midi_driver:frq_1",
@@ -24,11 +27,13 @@
 		"adder:in_3": "osc3:out",
 		"adder:in_4": "osc4:out",
 		"multiplier:in_1": "adder:out",
-		"multiplier:in_2": "level:out"
-
+		"multiplier:in_2": "level:out",
+		"lpf:in": "multiplier:out",
+		"lpf:frq": "cutoff:out",
+		"lpf:res": "res:out"
 	},
 	"expose": {
 		"midi_in": "midi_driver:midi_in",
-		"out": "multiplier:out"
+		"out": "lpf:out"
 	}
 }
