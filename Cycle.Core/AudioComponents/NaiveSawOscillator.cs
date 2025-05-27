@@ -25,17 +25,18 @@ public class NaiveSawOscillator : Component
 	{
 		float phaseIncrement = _frequency.Value.X / SampleRate;
 		_phase += phaseIncrement;
-		_phase %= 1f;
+		
+		while (_phase > 1f) _phase -= 1f;
 
 		if (_phase < _duty.Value.X)
 		{
 			// rising saw
-			_output.Value = new Vector2(_amplitude.Value.X * ((_phase / _duty.Value.X) * 2f - 1f), _amplitude.Value.X * ((_phase / _duty.Value.X) * 2f - 1f));
+			_output.Value = new Vector2(_phase / _duty.Value.X * 2f - 1f, _phase / _duty.Value.X * 2f - 1f);
 		}
 		else
 		{
 			// falling saw
-			_output.Value = new Vector2(_amplitude.Value.X * (1f - ((_phase - _duty.Value.X) / (1f - _duty.Value.X)) * 2f), _amplitude.Value.X * (1f - ((_phase - _duty.Value.X) / (1f - _duty.Value.X)) * 2f));
+			_output.Value = new Vector2((1f - (_phase - _duty.Value.X) / (1f - _duty.Value.X)) * 2f, (1f - (_phase - _duty.Value.X) / (1f - _duty.Value.X)) * 2f);
 		}
 	}
 }

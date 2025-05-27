@@ -1,4 +1,6 @@
-﻿namespace Cycle.Core.Core;
+﻿using System.Runtime.CompilerServices;
+
+namespace Cycle.Core.Core;
 
 public class Maths
 {
@@ -35,9 +37,20 @@ public class Maths
 		return $"{Notes[index % 12]}{index / 12}";
 	}
 
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static float Min(float lhs, float rhs) => lhs <= rhs ? lhs : rhs;
+
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static float Max(float lhs, float rhs) => lhs > rhs ? lhs : rhs;
 
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public static float UnitWrap(float value)
+	{
+		if (value < 0f || value > 1f) return value - MathF.Floor(value);
+		return value;
+	}
+
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	private static float GetSine(int index)
 	{
 		if (index < QuarterSineTableSize) return _quarterSine[index];
@@ -46,10 +59,11 @@ public class Maths
 		return -_quarterSine[FullSineTableSize - index - 1];
 	}
 
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static float Sin(float phase)
 	{
 		// keep phase in the range 0-1, the if saves the expensive flooring if not needed
-		if (phase < 0 || phase > 1) phase -= MathF.Floor(phase); 
+		phase = UnitWrap(phase);
 
 		// work out the left and right sample and factor
 		float scaledIndex = phase * FullSineTableSize;

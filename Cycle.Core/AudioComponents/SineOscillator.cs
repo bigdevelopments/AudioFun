@@ -5,7 +5,6 @@ public class SineOscillator : Component
 {
 	// inputs and outputs
 	private readonly SignalInput _frequency;
-	private readonly SignalInput _amplitude;
 	private readonly SignalOutput _output;
 
 	// state
@@ -14,7 +13,6 @@ public class SineOscillator : Component
 	public SineOscillator() 
 	{
 		_frequency = AddSignalInput("frq");
-		_amplitude = AddSignalInput("amp");
 		_output = AddSignalOutput("out");
 	}
 
@@ -26,9 +24,9 @@ public class SineOscillator : Component
 		if (_phase >= 1f) _phase -= 1f;
 
 		// default, but slow
-		//_output.Value = new Vector2(_amplitude.Value.X * MathF.Sin(_phase * 2 * MathF.PI), _amplitude.Value.Y * MathF.Sin(_phase * 2 * MathF.PI));
+		//_output.Value = new Vector2(MathF.Sin(_phase * 2 * MathF.PI), MathF.Sin(_phase * 2 * MathF.PI));
 
 		// this sin approximation is about 3x faster on i9-13900K, but likely depends on CPU cache state - we'll see
-		_output.Value = new Vector2(_amplitude.Value.X * Maths.Sin(_phase), _amplitude.Value.Y * Maths.Sin(_phase));
+		_output.Value = new Vector2(Maths.Sin(_phase), Maths.Sin(_phase));
 	}
 }

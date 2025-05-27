@@ -1,12 +1,13 @@
 ﻿namespace Cycle.Core.AudioComponents;
 
-[Primitive("adsr", "Simple ADSR envelope")]
-public class Adsr : Component
+[Primitive("adsr_linear", "Simple ADSR envelope")]
+public class AdsrLinear : Component
 {
 	// the different ADSR states
 	public enum AdsrState { Idle, Attack, Decay, Sustain, Release };
 
 	// inputs and outputs
+	private readonly SignalInput _trigger; // triggered by non-zero value
 	private readonly SignalInput _attack; // time in seconds
 	private readonly SignalInput _decay; // time in seconds
 	private readonly SignalInput _sustain; // level 0-1 as a fraction of max level
@@ -15,54 +16,48 @@ public class Adsr : Component
 
 	// state
 	private AdsrState _state;   // Idle, A, D, S or R
-	private float _topLevel;    // 0-1 as the maximum amplitude
+	private bool _triggered; // true if triggered by a non-zero value
 	private float _level;       // 0-1 as the current amplitude
 
-	public Adsr(params string[] parameters) 
+	public AdsrLinear(params string[] parameters)
 	{
-		// our four inputs
-		_attack = AddSignalInput("att");
-		_decay = AddSignalInput("dec");
-		_sustain = AddSignalInput("sus");
-		_release = AddSignalInput("rel");
+		// our five inputs
+		_trigger = AddSignalInput("trg");
+		_attack = AddSignalInput("a");
+		_decay = AddSignalInput("d");
+		_sustain = AddSignalInput("s");
+		_release = AddSignalInput("r");
 
 		// just one output, and respond to midi note on/off messages
 		_output = AddSignalOutput("out");
 
 		// initial state
 		_state = AdsrState.Idle;
-		_topLevel = 0;
 		_level = 0;
-	}
-
-	public override Message OnNotify(Message message)
-	{
-		if (MidiMessage.IsNoteOn(message, out var _, out var _, out var velocity))
-		{
-			_state = AdsrState.Attack;
-			_topLevel = velocity / 127f;
-			return Message.Ok;
-		}
-
-		if (MidiMessage.IsNoteOff(message, out var _, out var _, out var _))
-		{
-			_state = AdsrState.Release;
-			return Message.Ok;
-		}
-
-		return Message.Unsupported;
 	}
 
 	public override void Tick()
 	{
+		if (!_triggered && _trigger.Value.X != 0)
+		{
+			// trigger the ADSR envelope
+			_state = AdsrState.Attack;
+			_level = 0; // reset the level - ?
+			_triggered = true;
+		}
+		else if (_triggered && _trigger.Value.X == 0)
+		{
+			_triggered = false;
+		}
+
 		switch (_state)
 		{
 			case AdsrState.Attack:
 
 				_level += _attack.Value.X * OneOverSampleRate;
-				if (_level >= _topLevel)
+				if (_level >= 1f)
 				{
-					_level = _topLevel;
+					_level = 1f;
 					_state = AdsrState.Decay;
 				}
 				break;
@@ -70,7 +65,7 @@ public class Adsr : Component
 			case AdsrState.Decay:
 
 				// decay phase
-				_level -= (_topLevel - _sustain.Value.X) * OneOverSampleRate;
+				_level -= (1f - _sustain.Value.X) * OneOverSampleRate;
 				if (_level <= _sustain.Value.X)
 				{
 					_level = _sustain.Value.X;
@@ -80,7 +75,7 @@ public class Adsr : Component
 
 			case AdsrState.Sustain:
 
-				_level = _sustain.Value.X;
+				if (!_triggered) _state = AdsrState.Release;
 				break;
 
 			case AdsrState.Release:

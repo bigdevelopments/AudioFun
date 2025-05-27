@@ -9,13 +9,14 @@
 /// that the frequency can be fed into an oscillator or other ramp/lfo etc., and the velocity can trigger ADSRs etc.
 /// </remarks>
 [Primitive("poly_driver", "MIDI Polyphony Driver")]
-public class PolyphonyDriver : Component
+public class PolyphaseBridge : Component
 {
 	// an array of lanes and what note is assigned no them
 	private readonly int[] _notesInUse;
 
 	// three outputs per lane, frequency, amplitude and modulation
 	private readonly MidiInput _midiInput;
+	private readonly SignalOutput[] _triggerOutputs;
 	private readonly SignalOutput[] _frequencyOutputs;
 	private readonly SignalOutput[] _amplitudeOutputs;
 	private readonly SignalOutput[] _modulationOutputs;
@@ -26,7 +27,7 @@ public class PolyphonyDriver : Component
 	// cache of pitch bend
 	private float _pitchBend = 0f;
 
-	public PolyphonyDriver(params string[] parameters)
+	public PolyphaseBridge(params string[] parameters)
 	{
 		if (parameters?.Length < 1 || !int.TryParse(parameters[0], out var polyphony))
 		{
@@ -47,6 +48,7 @@ public class PolyphonyDriver : Component
 
 		_notesInUse = new int[polyphony];
 
+		_triggerOutputs = new SignalOutput[polyphony];
 		_frequencyOutputs = new SignalOutput[polyphony];
 		_amplitudeOutputs = new SignalOutput[polyphony];
 		_modulationOutputs = new SignalOutput[polyphony];
@@ -54,6 +56,7 @@ public class PolyphonyDriver : Component
 		for (int index = 0; index < polyphony; index++)
 		{
 			_notesInUse[index] = 0; // completeness :)
+			_triggerOutputs[index] = AddSignalOutput($"trg_{index + 1}");
 			_frequencyOutputs[index] = AddSignalOutput($"frq_{index + 1}");
 			_amplitudeOutputs[index] = AddSignalOutput($"amp_{index + 1}");
 			_modulationOutputs[index] = AddSignalOutput($"mod_{index + 1}");
@@ -71,6 +74,7 @@ public class PolyphonyDriver : Component
 			_notesInUse[lane] = onNote;
 			var frequency = MidiScales.NoteToFrequency(onNote + _pitchBend);
 			var amplitude = onVelocity / 127f;
+			_triggerOutputs[lane].Value = Vector2.One; // trigger on note on
 			_frequencyOutputs[lane].Value = new Vector2(frequency, frequency);
 			_amplitudeOutputs[lane].Value = new Vector2(amplitude, amplitude);
 		}
@@ -83,6 +87,7 @@ public class PolyphonyDriver : Component
 			// if we can't find it, its probably been sacrificed, just ignore it
 			if (lane == -1) return;
 
+			_triggerOutputs[lane].Value = Vector2.Zero;
 			_frequencyOutputs[lane].Value = Vector2.Zero;
 			_amplitudeOutputs[lane].Value = Vector2.Zero;
 			_modulationOutputs[lane].Value = Vector2.Zero;

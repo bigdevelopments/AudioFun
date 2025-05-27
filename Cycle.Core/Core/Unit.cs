@@ -28,7 +28,7 @@ public class Unit : Component
 
 		if (input is SignalInput signalInput)
 		{
-			if (!(output is SignalOutput)) throw new ArgumentException($"Output [{source}.{sourceOutput}] is not a valid SignalOutput.");
+			if (!(output is SignalOutput)) throw new ArgumentException($"Output [{source}:{sourceOutput}] is not a valid SignalOutput.");
 			signalInput.ConnectTo(output);
 			return;
 		}

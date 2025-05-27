@@ -20,7 +20,6 @@ public class NaivePulseOscillator : Component
 	public NaivePulseOscillator()
 	{
 		_frequency = AddSignalInput("frq");
-		_amplitude = AddSignalInput("amp");
 		_duty = AddSignalInput("duty", new Vector2(0.5f, 0.5f));
 		_output = AddSignalOutput("out");
 	}
@@ -30,10 +29,9 @@ public class NaivePulseOscillator : Component
 	{
 		float phaseIncrement = _frequency.Value.X / SampleRate;
 		_phase += phaseIncrement;
-		_phase %= 1f;
 
-		_output.Value = _phase > _duty.Value.X
-			? new Vector2(_amplitude.Value.X, _amplitude.Value.X)
-			: new Vector2(-_amplitude.Value.X, -_amplitude.Value.X);
+		while (_phase > 1f) _phase -= 1f;
+
+		_output.Value = _phase > _duty.Value.X ? Vector2.One : -Vector2.One;
 	}
 }

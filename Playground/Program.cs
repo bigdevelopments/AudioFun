@@ -25,6 +25,7 @@ ComponentFactory componentFactory = new ComponentFactory();
 // add unit specifications from file
 componentFactory.AddUnitSpec("Units\\test.unit");
 componentFactory.AddUnitSpec("Units\\sine_synth.unit");
+componentFactory.AddUnitSpec("Units\\adsr_lane.unit");
 
 // create the host
 Host host = new Host();

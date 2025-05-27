@@ -1,0 +1,24 @@
+{
+	"name": "adsr_lane",
+	"elements": {
+		"jct": "junction",
+		"adsr_amp": "adsr_linear",
+		"osc1": "pulse_osc",
+		"multiplier": "multiplier"
+	},
+	"connections": {
+		"adsr_amp:trg": "jct:out",
+		"multiplier:in_1": "adsr_amp:out",
+		"multiplier:in_2": "osc1:out"
+	},
+	"expose": {
+		"trg": "jct:in",
+		"frq": "osc1:freq",
+		"amp": "muliplier:in_3",
+		"out": "multiplier:out",
+		"A": "adsr_amp:a",
+		"D": "adsr_amp:d",
+		"S": "adsr_amp:s",
+		"R": "adsr_amp:r"
+	}
+}

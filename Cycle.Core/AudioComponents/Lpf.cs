@@ -25,7 +25,10 @@ public class Lpf : Component
 
 	public override void Tick()
 	{
-		Vector2 freq = new Vector2(2f * MathF.Sin(MathF.PI * _cutOff.Value.X / SampleRate), 2f * MathF.Sin(MathF.PI * _cutOff.Value.Y / SampleRate));
+		// just encase, leave this here for debug
+		//Vector2 freq = new Vector2(2f * MathF.Sin(MathF.PI * _cutOff.Value.X * OneOverSampleRate), 2f * MathF.Sin(MathF.PI * _cutOff.Value.Y * OneOverSampleRate));
+		
+		Vector2 freq = new Vector2(2f * Maths.Sin(_cutOff.Value.X * OneOverSampleRate *0.5f), 2f * Maths.Sin(_cutOff.Value.Y * OneOverSampleRate * 0.5f));
 		Vector2 feedback = _resonance.Value + _resonance.Value / (Vector2.One - freq);
 
 		_h0 += freq * (_input.Value - _h0 + feedback * (_h0 - _h1));
