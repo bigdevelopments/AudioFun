@@ -22,10 +22,16 @@ public struct Message
 			switch (Data & 0xf00000)
 			{
 				case 0x800000:
-					return $"NoteOff {Data >> 16 & 0xf}:{Maths.GetNoteName(Data >> 8 & 0xff)}:{Data & 0xff}";
+					return $"{Data >> 16 & 0xf}:NoteOff {Maths.GetNoteName(Data >> 8 & 0xff)}:{Data & 0xff}";
 
 				case 0x900000:
-					return $"NoteOn  {Data >> 16 & 0xf}:{Maths.GetNoteName(Data >> 8 & 0xff)}:{Data & 0xff}";
+					return $"{Data >> 16 & 0xf} NoteOn {Maths.GetNoteName(Data >> 8 & 0xff)}:{Data & 0xff}";
+
+				case 0xb00000:
+					return $"{Data >> 16 & 0xf} Controller {Data >> 8 & 0xff}:{Data & 0xff}";
+				
+				case 0xe00000:
+					return $"{Data >> 16 & 0xf} PitchBend {(Data & 0xff) * 128 + (Data >> 8 & 0xff)}";
 			}
 
 			return "Midi";

@@ -4,7 +4,7 @@ public abstract class Component
 {
 	// single inputs and outputs
 	private readonly Dictionary<string, Connection> _connections = new Dictionary<string, Connection>(StringComparer.OrdinalIgnoreCase);
-	
+
 	// an isolated component has outputs decoupled from inputs, so it can be used in a circuit breaker
 	private bool _isolated;
 
@@ -21,7 +21,7 @@ public abstract class Component
 	public bool Isolated => _isolated || _connections.Count == 0;
 
 	public void Initialise(int sampleRate)
-	{ 
+	{
 		_sampleRate = sampleRate;
 		_oneOverSampleRate = 1f / sampleRate;
 		OnInitialise(sampleRate);
@@ -131,7 +131,7 @@ public abstract class Component
 	}
 
 
-	public abstract void Tick();
+	public virtual void Tick() { } // nothing
 	public int SampleRate => _sampleRate;
 	public float OneOverSampleRate => _oneOverSampleRate;
 	public int BufferSize => _bufferSize;

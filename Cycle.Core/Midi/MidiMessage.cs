@@ -85,7 +85,7 @@ public static class MidiMessage
 		return true;
 	}
 
-	public static bool IsPitchBend(Message message, ushort channelMask, out int bend)
+	public static bool IsPitchBend(Message message, ushort channelMask, out float bend)
 	{
 		if ((message.Data & 0xfff00000) != 0x01e00000 || (channelMask & (ushort)(message.Data >> 16)) == 0)
 		{
@@ -94,12 +94,29 @@ public static class MidiMessage
 		}
 
 		// the two data bytes are 7 bits only, so we need to shift them around
-		var msb = (byte)(message.Data >> 8 & 0x7f);
-		var lsb = (byte)(message.Data & 0x7f);
+		var lsb = (byte)(message.Data >> 8 & 0x7f);
+		var msb = (byte)(message.Data & 0x7f);
 
 		// bend is 14 bits, and goes from -8192 to 8191
-		bend = (lsb | msb << 7) - 0x2000;
+		bend = ((lsb | msb << 7) - 0x2000) / 8192f;
 		return true;
 	}
 
+	public static bool IsControllerChange(Message message, ushort channelMask, out int controllerNumber, out float value)
+	{
+		if ((message.Data & 0xfff00000) != 0x01b00000 || (channelMask & (ushort)(message.Data >> 16)) == 0)
+		{
+			value = 0;
+			controllerNumber = 0;
+			return false;
+		}
+
+		// the two data bytes are 7 bits only, so we need to shift them around
+		controllerNumber = (byte)(message.Data >> 8 & 0x7f);
+		var controllerValue = (byte)(message.Data & 0x7f);
+
+		// bend is 14 bits, and goes from -8192 to 8191
+		value = controllerValue / 127f; // normalize to 0-1 range
+		return true;
+	}
 }

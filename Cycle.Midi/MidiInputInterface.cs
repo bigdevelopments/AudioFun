@@ -60,6 +60,10 @@ public class MidiInputInterface : Component
 			_output.Send(message);
 			Console.WriteLine($"{Name}: {message}");
 		}
+		else
+		{
+			Console.WriteLine($"{Name}: Non-data {msg}");
+		}
 	}
 
 	public override void Tick()

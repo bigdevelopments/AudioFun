@@ -1,7 +1,7 @@
 {
 	"name": "sine_synth",
 	"elements": {
-		"midi_driver": "poly_driver(4)",
+		"midi_driver": "poly_bridge(4)",
 		"level": "constant(0.1)",
 		"osc1": "sine_osc",
 		"osc2": "naive_pulse",

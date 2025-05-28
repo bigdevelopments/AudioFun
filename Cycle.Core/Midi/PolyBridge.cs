@@ -4,12 +4,11 @@
 /// A polyphonic driver assigns incoming MIDI information into polyphonic lanes
 /// </summary>
 /// <remarks>
-/// The input is midi, which is checked against a channel Mask. The output is lane output, one for each polyphonic note
-/// The X value is the frequency (from note and pitch bend), the Y value is the velocity (0-1, >0 = on, 0 = off), such
-/// that the frequency can be fed into an oscillator or other ramp/lfo etc., and the velocity can trigger ADSRs etc.
+/// The input is midi, which is checked against a channel Mask. The output is lane outputs, one for each polyphonic note,
+/// with each lane providing a trigger, frequency, amplitude and modulation outputs.
 /// </remarks>
-[Primitive("poly_driver", "MIDI Polyphony Driver")]
-public class PolyphaseBridge : Component
+[Primitive("poly_bridge", "MIDI Polyphony Driver")]
+public class PolyBridge : Component
 {
 	// an array of lanes and what note is assigned no them
 	private readonly int[] _notesInUse;
@@ -27,7 +26,9 @@ public class PolyphaseBridge : Component
 	// cache of pitch bend
 	private float _pitchBend = 0f;
 
-	public PolyphaseBridge(params string[] parameters)
+	private float _pitchBendScale = 12f;
+
+	public PolyBridge(params string[] parameters)
 	{
 		if (parameters?.Length < 1 || !int.TryParse(parameters[0], out var polyphony))
 		{
@@ -72,7 +73,7 @@ public class PolyphaseBridge : Component
 		{
 			int lane = FindBestLane(onNote);
 			_notesInUse[lane] = onNote;
-			var frequency = MidiScales.NoteToFrequency(onNote + _pitchBend);
+			var frequency = MidiScales.NoteToFrequency(onNote + _pitchBend* _pitchBendScale);
 			var amplitude = onVelocity / 127f;
 			_triggerOutputs[lane].Value = Vector2.One; // trigger on note on
 			_frequencyOutputs[lane].Value = new Vector2(frequency, frequency);
@@ -98,15 +99,14 @@ public class PolyphaseBridge : Component
 
 		if (MidiMessage.IsPitchBend(message, _channelMask, out var bend))
 		{
-			var pitchBend = bend / 8192f; // 0-16384 to -1 to 1
-			if (pitchBend == _pitchBend) return;
+			if (bend == _pitchBend) return;
+			_pitchBend = bend;
 
-			_pitchBend = pitchBend;
 			// update all lanes with the new pitch bend
 			for (int index = 0; index < _notesInUse.Length; index++)
 			{
 				if (_notesInUse[index] == 0) continue; // skip empty lanes
-				var frequency = MidiScales.NoteToFrequency(_notesInUse[index] + _pitchBend);
+				var frequency = MidiScales.NoteToFrequency(_notesInUse[index] + _pitchBend*_pitchBendScale);
 				_frequencyOutputs[index].Value = new Vector2(frequency, frequency);
 			}
 		}
@@ -136,10 +136,5 @@ public class PolyphaseBridge : Component
 		}
 
 		return nearestIndex;
-	}
-
-	public override void Tick()
-	{
-		// nothing to do here
 	}
 }

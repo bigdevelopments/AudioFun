@@ -1,9 +1,9 @@
 {
 	"name": "adsr_lane",
 	"elements": {
-		"jct": "junction",
+		"jct": "signal_node",
 		"adsr_amp": "adsr_linear",
-		"osc1": "naive_pulse",
+		"osc1": "naive_saw",
 		"multiplier": "multiplier(3)"
 	},
 	"connections": {

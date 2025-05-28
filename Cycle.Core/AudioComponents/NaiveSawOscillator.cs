@@ -16,7 +16,7 @@ public class NaiveSawOscillator : Component
 	{
 		_frequency = AddSignalInput("frq");
 		_amplitude = AddSignalInput("amp");
-		_duty = AddSignalInput("duty", new Vector2(0.5f, 0.5f));
+		_duty = AddSignalInput("duty", Vector2.One);// new Vector2(0.5f, 0.5f));
 		_output = AddSignalOutput("out");
 	}
 

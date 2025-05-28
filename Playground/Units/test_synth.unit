@@ -1,22 +1,22 @@
 {
 	"name": "test_synth",
 	"elements": {
-		"attack": "constant(0.1)",
-		"decay": "constant(0.4)",
-		"sustain": "constant(0.5)",
+		"attack": "constant(0.02)",
+		"decay": "constant(0.1)",
+		"sustain": "constant(0.9)",
 		"release": "constant(1)",
-		"amp": "constant(0.4)",
-		"bridge": "poly_driver(4)",
+		"bridge": "poly_bridge(4)",
 		"lane1": "adsr_lane",
 		"lane2": "adsr_lane",
 		"lane3": "adsr_lane",
 		"lane4": "adsr_lane",
-		"adder": "adder(4)"
+		"adder": "adder(4)",
+		"volume": "ctrl_bridge(7)"
 	},
 	"connections": {
 		"lane1:frq": "bridge:frq_1",
 		"lane1:trg": "bridge:trg_1",
-		"lane1:amp": "amp:out",
+		"lane1:amp": "volume:out",
 		"lane1:a": "attack:out",
 		"lane1:d": "decay:out",
 		"lane1:s": "sustain:out",
@@ -24,7 +24,7 @@
 		
 		"lane2:frq": "bridge:frq_2",
 		"lane2:trg": "bridge:trg_2",
-		"lane2:amp": "amp:out",
+		"lane2:amp": "volume:out",
 		"lane2:a": "attack:out",
 		"lane2:d": "decay:out",
 		"lane2:s": "sustain:out",
@@ -32,7 +32,7 @@
 
 		"lane3:frq": "bridge:frq_3",
 		"lane3:trg": "bridge:trg_3",
-		"lane3:amp": "amp:out",
+		"lane3:amp": "volume:out",
 		"lane3:a": "attack:out",
 		"lane3:d": "decay:out",
 		"lane3:s": "sustain:out",
@@ -40,7 +40,7 @@
 
 		"lane4:frq": "bridge:frq_4",
 		"lane4:trg": "bridge:trg_4",
-		"lane4:amp": "amp:out",
+		"lane4:amp": "volume:out",
 		"lane4:a": "attack:out",
 		"lane4:d": "decay:out",
 		"lane4:s": "sustain:out",
@@ -53,6 +53,7 @@
 	},
 	"expose": {
 		"midi_in": "bridge:midi_in",
+		"midi_in2": "volume:midi_in",
 		"out": "adder:out"
 	}
 }
