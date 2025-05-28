@@ -1,6 +1,4 @@
-﻿using System.Net.Http.Headers;
-
-namespace Cycle.Core.AudioComponents;
+﻿namespace Cycle.Core.AudioComponents;
 
 /// <summary>
 /// Generates non-band-limiting pulse waveforms, set duty to 0.5 for a square wave.

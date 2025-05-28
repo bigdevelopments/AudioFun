@@ -26,6 +26,7 @@ ComponentFactory componentFactory = new ComponentFactory();
 componentFactory.AddUnitSpec("Units\\test.unit");
 componentFactory.AddUnitSpec("Units\\sine_synth.unit");
 componentFactory.AddUnitSpec("Units\\adsr_lane.unit");
+componentFactory.AddUnitSpec("Units\\test_synth.unit");
 
 // create the host
 Host host = new Host();
@@ -38,9 +39,9 @@ foreach (var midiInput in midiInterface.Inputs) host.Add(midiInput.Name.ToLower(
 var audioOut = host.Add("audio_out", componentFactory.Create("audio_out"));
 
 // just add a test unit and connect it the audio output
-host.Add("unit", componentFactory.Create("sine_synth"));
-host.Connect("unit", "out", "audio_out", "in");
-host.Connect(midiInterface.Inputs[0].Name.ToLower(), "out", "unit", "midi_in");
+host.Add("synth", componentFactory.Create("test_synth"));
+host.Connect("synth", "out", "audio_out", "in");
+host.Connect(midiInterface.Inputs[0].Name.ToLower(), "out", "synth", "midi_in");
 
 
 // set sample rate

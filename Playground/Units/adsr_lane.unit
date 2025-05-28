@@ -3,8 +3,8 @@
 	"elements": {
 		"jct": "junction",
 		"adsr_amp": "adsr_linear",
-		"osc1": "pulse_osc",
-		"multiplier": "multiplier"
+		"osc1": "naive_pulse",
+		"multiplier": "multiplier(3)"
 	},
 	"connections": {
 		"adsr_amp:trg": "jct:out",
@@ -13,12 +13,12 @@
 	},
 	"expose": {
 		"trg": "jct:in",
-		"frq": "osc1:freq",
-		"amp": "muliplier:in_3",
+		"frq": "osc1:frq",
+		"amp": "multiplier:in_3",
 		"out": "multiplier:out",
-		"A": "adsr_amp:a",
-		"D": "adsr_amp:d",
-		"S": "adsr_amp:s",
-		"R": "adsr_amp:r"
+		"a": "adsr_amp:a",
+		"d": "adsr_amp:d",
+		"s": "adsr_amp:s",
+		"r": "adsr_amp:r"
 	}
 }

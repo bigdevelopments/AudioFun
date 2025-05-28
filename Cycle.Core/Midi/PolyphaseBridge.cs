@@ -88,9 +88,9 @@ public class PolyphaseBridge : Component
 			if (lane == -1) return;
 
 			_triggerOutputs[lane].Value = Vector2.Zero;
-			_frequencyOutputs[lane].Value = Vector2.Zero;
-			_amplitudeOutputs[lane].Value = Vector2.Zero;
-			_modulationOutputs[lane].Value = Vector2.Zero;
+			//_frequencyOutputs[lane].Value = Vector2.Zero;
+			//_amplitudeOutputs[lane].Value = Vector2.Zero;
+			//_modulationOutputs[lane].Value = Vector2.Zero;
 
 			// free up the lane
 			_notesInUse[lane] = 0;

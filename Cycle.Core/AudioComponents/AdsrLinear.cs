@@ -54,7 +54,7 @@ public class AdsrLinear : Component
 		{
 			case AdsrState.Attack:
 
-				_level += _attack.Value.X * OneOverSampleRate;
+				_level += OneOverSampleRate / _attack.Value.X;
 				if (_level >= 1f)
 				{
 					_level = 1f;
@@ -65,7 +65,7 @@ public class AdsrLinear : Component
 			case AdsrState.Decay:
 
 				// decay phase
-				_level -= (1f - _sustain.Value.X) * OneOverSampleRate;
+				_level -= (1f - _sustain.Value.X) * OneOverSampleRate / _decay.Value.X;
 				if (_level <= _sustain.Value.X)
 				{
 					_level = _sustain.Value.X;
@@ -75,12 +75,15 @@ public class AdsrLinear : Component
 
 			case AdsrState.Sustain:
 
-				if (!_triggered) _state = AdsrState.Release;
+				if (!_triggered)
+				{
+					_state = AdsrState.Release;
+				}
 				break;
 
 			case AdsrState.Release:
 
-				_level -= (_sustain.Value.X - _release.Value.X) * OneOverSampleRate;
+				_level -= _sustain.Value.X * OneOverSampleRate / _release.Value.X;
 				if (_level <= 0)
 				{
 					_level = 0;
