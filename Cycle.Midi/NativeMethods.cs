@@ -27,7 +27,7 @@ public class NativeMethods
 	public static extern int midiInGetDevCaps(int uDeviceID, ref MIDIINCAPS lpMidiInCaps, uint cbMidiInCaps);
 
 	[DllImport("winmm.dll")]
-	public static extern int midiOutGetDevCaps(int uDeviceID, ref MidiOutCaps lpMidiOutCaps, uint cbMidiOutCaps);
+	public static extern int midiOutGetDevCaps(int uDeviceID, ref MIDIOUTCAPS lpMidiOutCaps, uint cbMidiOutCaps);
 
 	[DllImport("winmm.dll")]
 	public static extern int midiOutOpen(ref int handle, int deviceID, MidiInProc proc, int instance, int flags);
@@ -83,7 +83,7 @@ public enum InputMessages
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MidiOutCaps
+public struct MIDIOUTCAPS
 {
 	public ushort wMid;
 	public ushort wPid;
@@ -96,18 +96,6 @@ public struct MidiOutCaps
 	public ushort wVoices;
 	public ushort wNotes;
 	public ushort wChannelMask;
-	public ushort dwSupport;
-}
-
-[StructLayout(LayoutKind.Sequential)]
-public struct MidiInCaps
-{
-	public ushort wMid;
-	public ushort wPid;
-	public ushort vDriverVersion;
-
-	[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
-	public string szPname;
 	public ushort dwSupport;
 }
 

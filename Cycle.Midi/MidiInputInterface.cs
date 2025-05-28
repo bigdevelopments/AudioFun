@@ -27,6 +27,9 @@ public class MidiInputInterface : Component
 		_handle = nint.Zero;
 	}
 
+	public override string ToString() => _name;
+
+
 	public string Name => _name;
 
 	public void Start()

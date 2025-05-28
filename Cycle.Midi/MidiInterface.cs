@@ -22,7 +22,11 @@ public class MidiInterface
 		{
 			MIDIINCAPS caps = new MIDIINCAPS();
 			NativeMethods.midiInGetDevCaps(0, ref caps, (uint)Marshal.SizeOf(caps.GetType()));
-			_inputDevices[index] = new MidiInputInterface(caps.szPname);
+
+			//MIDIOUTCAPS outCaps = new MIDIOUTCAPS();
+			//NativeMethods.midiOutGetDevCaps(0, ref outCaps, (uint)Marshal.SizeOf(outCaps.GetType()));
+
+			_inputDevices[index] = new MidiInputInterface($"{index}:{caps.szPname}");
 			_inputDevices[index].Start();
 		}
 	}

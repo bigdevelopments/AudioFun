@@ -33,7 +33,7 @@ Host host = new Host();
 
 // add in midi devices
 MidiInterface midiInterface = new MidiInterface();
-foreach (var midiInput in midiInterface.Inputs) host.Add(midiInput.Name.ToLower(), midiInput);
+foreach (var midiInputInterface in midiInterface.Inputs) host.Add(midiInputInterface.Name.ToLower(), midiInputInterface);
 
 // add in the audio output
 var audioOut = host.Add("audio_out", componentFactory.Create("audio_out"));
