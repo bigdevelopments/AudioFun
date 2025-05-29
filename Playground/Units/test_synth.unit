@@ -11,20 +11,28 @@
 		"lane3": "adsr_lane",
 		"lane4": "adsr_lane",
 		"adder": "adder(4)",
-		"volume": "ctrl_bridge(7)"
+		"f": "ctrl_bridge(1, 0.1)",
+		"res": "ctrl_bridge(7, 0.1)",
+		"cutoff_scale": "constant(4400)",
+		"volume": "constant(0.2)",
+		"cutoff": "multiplier(2)"
 	},
 	"connections": {
 		"lane1:frq": "bridge:frq_1",
 		"lane1:trg": "bridge:trg_1",
 		"lane1:amp": "volume:out",
+		"lane1:lpf_frq": "cutoff:out",
+		"lane1:lpf_res": "res:out",
 		"lane1:a": "attack:out",
 		"lane1:d": "decay:out",
 		"lane1:s": "sustain:out",
 		"lane1:r": "release:out",
-		
+
 		"lane2:frq": "bridge:frq_2",
 		"lane2:trg": "bridge:trg_2",
 		"lane2:amp": "volume:out",
+		"lane2:lpf_frq": "cutoff:out",
+		"lane2:lpf_res": "res:out",
 		"lane2:a": "attack:out",
 		"lane2:d": "decay:out",
 		"lane2:s": "sustain:out",
@@ -33,6 +41,8 @@
 		"lane3:frq": "bridge:frq_3",
 		"lane3:trg": "bridge:trg_3",
 		"lane3:amp": "volume:out",
+		"lane3:lpf_frq": "cutoff:out",
+		"lane3:lpf_res": "res:out",
 		"lane3:a": "attack:out",
 		"lane3:d": "decay:out",
 		"lane3:s": "sustain:out",
@@ -41,6 +51,8 @@
 		"lane4:frq": "bridge:frq_4",
 		"lane4:trg": "bridge:trg_4",
 		"lane4:amp": "volume:out",
+		"lane4:lpf_frq": "cutoff:out",
+		"lane4:lpf_res": "res:out",
 		"lane4:a": "attack:out",
 		"lane4:d": "decay:out",
 		"lane4:s": "sustain:out",
@@ -49,11 +61,15 @@
 		"adder:in_1": "lane1:out",
 		"adder:in_2": "lane2:out",
 		"adder:in_3": "lane3:out",
-		"adder:in_4": "lane4:out"
+		"adder:in_4": "lane4:out",
+
+		"cutoff:in_1": "cutoff_scale:out",
+		"cutoff:in_2": "f:out"
 	},
 	"expose": {
 		"midi_in": "bridge:midi_in",
-		"midi_in2": "volume:midi_in",
+		"midi_in2": "f:midi_in",
+		"midi_in3": "res:midi_in",
 		"out": "adder:out"
 	}
 }

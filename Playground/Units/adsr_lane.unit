@@ -4,16 +4,20 @@
 		"jct": "signal_node",
 		"adsr_amp": "adsr_linear",
 		"osc1": "naive_saw",
-		"multiplier": "multiplier(3)"
+		"multiplier": "multiplier(3)",
+		"lpf": "lpf"
 	},
 	"connections": {
+		"lpf:in": "osc1:out", 
 		"adsr_amp:trg": "jct:out",
 		"multiplier:in_1": "adsr_amp:out",
-		"multiplier:in_2": "osc1:out"
+		"multiplier:in_2": "lpf:out"
 	},
 	"expose": {
 		"trg": "jct:in",
 		"frq": "osc1:frq",
+		"lpf_frq": "lpf:frq",
+		"lpf_res": "lpf:res",
 		"amp": "multiplier:in_3",
 		"out": "multiplier:out",
 		"a": "adsr_amp:a",

@@ -59,6 +59,13 @@ public class Maths
 		return -_quarterSine[FullSineTableSize - index - 1];
 	}
 
+	public static float Tanh(float level)
+	{
+		float x2 = level * level;
+		float result = level * (2.0f + x2) / (2.0f + 2.0f * x2);
+		return Math.Clamp(result, -1.0f, 1.0f);
+	}
+
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static float Sin(float phase)
 	{

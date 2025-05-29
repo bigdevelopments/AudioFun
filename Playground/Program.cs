@@ -43,6 +43,7 @@ host.Add("synth", componentFactory.Create("test_synth"));
 host.Connect("synth", "out", "audio_out", "in");
 host.Connect(midiInterface.Inputs[0].Name.ToLower(), "out", "synth", "midi_in");
 host.Connect(midiInterface.Inputs[0].Name.ToLower(), "out", "synth", "midi_in2");
+host.Connect(midiInterface.Inputs[0].Name.ToLower(), "out", "synth", "midi_in3");
 
 // set sample rate
 host.Initialise(48000);

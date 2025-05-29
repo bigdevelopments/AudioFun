@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cycle.Wasapi.NAudio", "Cycl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playground", "Playground\Playground.csproj", "{C2A9552F-2EBE-4774-98DC-20C2838327CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrapWaveViewer", "CrapWaveViewer\CrapWaveViewer.csproj", "{E076E72C-9238-4EBC-A7D0-2021000A4C0F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{C2A9552F-2EBE-4774-98DC-20C2838327CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2A9552F-2EBE-4774-98DC-20C2838327CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2A9552F-2EBE-4774-98DC-20C2838327CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E076E72C-9238-4EBC-A7D0-2021000A4C0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E076E72C-9238-4EBC-A7D0-2021000A4C0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E076E72C-9238-4EBC-A7D0-2021000A4C0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E076E72C-9238-4EBC-A7D0-2021000A4C0F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

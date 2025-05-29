@@ -24,13 +24,16 @@ public class AudioLink : ISampleProvider
 	{
 		Thread.CurrentThread.Priority = ThreadPriority.Highest;
 
+
 		if (count % 2 != 0) throw new ArgumentException("Buffer size must be even.");
+
 		for (int index = 0; index < count; index += 2)
 		{
 			_host.Tick();
-			buffer[offset + index] = _audioOutput.Left;
-			buffer[offset + index + 1] = _audioOutput.Right;
+			buffer[offset + index] = Math.Clamp(_audioOutput.Left, -1, 1);
+			buffer[offset + index + 1] = Math.Clamp(_audioOutput.Right, -1, 1);
 		}
 		return count;
+
 	}
 }
