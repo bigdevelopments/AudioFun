@@ -34,7 +34,7 @@ namespace CrapWaveViewer
 			float phase = trackBar2.Value / 1000f;
 			float duty = trackBar3.Value / 1000f;
 
-			Text = $"Harmonics: {trackBar1.Value} Duty: {((int)trackBar3.Value/100)*10}%";
+			Text = $"Harmonics: {trackBar1.Value} Duty: {(int)(trackBar3.Value/10)}%";
 			switch (comboBox1.SelectedIndex)
 			{
 				case 0: // Sine Wave
@@ -47,6 +47,9 @@ namespace CrapWaveViewer
 					viewControl1.SetWaveForm(waveFormGenerator.GenerateSquareWave(trackBar1.Value, phase));
 					break;
 				case 3:
+					viewControl1.SetWaveForm(waveFormGenerator.GenerateTriangleWave(trackBar1.Value, phase));
+					break;
+				case 4:
 					float[] one = waveFormGenerator.GenerateSawWave(trackBar1.Value, phase);
 					float[] two = waveFormGenerator.GenerateSawWave(trackBar1.Value, phase+duty);
 					for (int index = 0; index < 1024; index++)
@@ -58,7 +61,7 @@ namespace CrapWaveViewer
 					viewControl1.SetWaveForm(one);
 					break;
 
-				case 4:
+				case 5:
 					float[] one1 = waveFormGenerator.GenerateSawWave(trackBar1.Value, phase);
 					float[] two1 = waveFormGenerator.GenerateSawWave(trackBar1.Value, phase + duty);
 					for (int index = 0; index < 1024; index++)
