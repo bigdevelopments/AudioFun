@@ -1,4 +1,5 @@
-﻿using Cycle.Core.AudioComponents;
+﻿using Cycle.AdditiveSynthesis;
+using Cycle.Core.AudioComponents;
 using Cycle.Core.Core;
 using Cycle.Core.Factory;
 using Cycle.Midi;
@@ -8,6 +9,14 @@ using NAudio.Wave;
 
 using System.Diagnostics;
 using System.Runtime;
+
+//AdditiveTest additiveTest = new AdditiveTest();
+
+//additiveTest.RunUsingUnsafeCode();
+
+//return;
+
+
 
 // some prioritisation to try and keep latency low
 Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.RealTime;

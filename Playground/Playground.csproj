@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Cycle.AdditiveSynthesis\Cycle.AdditiveSynthesis.csproj" />
     <ProjectReference Include="..\Cycle.Core\Cycle.Core.csproj" />
     <ProjectReference Include="..\Cycle.Midi\Cycle.Midi.csproj" />
     <ProjectReference Include="..\Cycle.Wasapi.NAudio\Cycle.Wasapi.NAudio.csproj" />
