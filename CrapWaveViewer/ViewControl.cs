@@ -12,9 +12,9 @@ namespace CrapWaveViewer
 			_waveForm = Array.Empty<float>();
 		}
 
-		public void SetWaveForm(float[] waveForm)
+		public void SetWaveForm(ReadOnlySpan<float> waveForm)
 		{
-			_waveForm = waveForm;
+			_waveForm = waveForm.ToArray();
 			Invalidate(); // Trigger a repaint
 		}
 

@@ -1,6 +1,5 @@
-﻿using System.Numerics;
+﻿namespace Cycle.Core.WaveTables;
 
-namespace Cycle.Core.Core;
 /// <summary>
 /// Generates various waveforms such as sine, sawtooth, square, and triangle waves.
 /// </summary>
@@ -18,7 +17,7 @@ public class WaveFormGenerator
 		_scaling = 0.54d;
 	}
 
-	public float[] GenerateSineWave(float phase = 0)
+	public ReadOnlySpan<float> GenerateSineWave(float phase = 0)
 	{
 		phase = phase % 1f;
 		float[] samples = new float[_length];
@@ -26,7 +25,7 @@ public class WaveFormGenerator
 		return samples;
 	}
 
-	public float[] GenerateSawWave(int harmonics, float phase = 0)
+	public ReadOnlySpan<float> GenerateSawWave(int harmonics, float phase = 0)
 	{
 		phase = phase % 1f;
 		float[] samples = new float[_length];
@@ -51,7 +50,7 @@ public class WaveFormGenerator
 		return samples;
 	}
 
-	public float[] GenerateSquareWave(int harmonics, float phase = 0)
+	public ReadOnlySpan<float> GenerateSquareWave(int harmonics, float phase = 0)
 	{
 		phase = phase % 1f;
 		float[] samples = new float[_length];
@@ -69,7 +68,7 @@ public class WaveFormGenerator
 		return samples;
 	}
 
-	public float[] GenerateTriangleWave(int harmonics, float phase = 0)
+	public ReadOnlySpan<float> GenerateTriangleWave(int harmonics, float phase = 0)
 	{
 		phase = phase % 1f;
 		float[] samples = new float[_length];

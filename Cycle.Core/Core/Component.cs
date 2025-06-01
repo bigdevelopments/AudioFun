@@ -55,6 +55,12 @@ public abstract class Component
 		return connection;
 	}
 
+	protected SignalInput AddSignalInput(string name, float value)
+	{
+		return AddSignalInput(name, new Vector2(value));
+	}
+
+
 	protected SignalInput AddSignalInput(string name, Vector2 disconnectedValue = default)
 	{
 		if (_connections.ContainsKey(name))

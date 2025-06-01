@@ -19,7 +19,4 @@ public class MidiOutput : Connection
 		// send the message to all targets
 		Targets?.Invoke(message);
 	}
-
-	// abstraction not quite right, only the owning component should be able to set the value
-	public Vector2 Value { get; set; }
 }

@@ -1,4 +1,4 @@
-using Cycle.Core.Core;
+using Cycle.Core.WaveTables;
 
 namespace CrapWaveViewer
 {
@@ -50,8 +50,8 @@ namespace CrapWaveViewer
 					viewControl1.SetWaveForm(waveFormGenerator.GenerateTriangleWave(trackBar1.Value, phase));
 					break;
 				case 4:
-					float[] one = waveFormGenerator.GenerateSawWave(trackBar1.Value, phase);
-					float[] two = waveFormGenerator.GenerateSawWave(trackBar1.Value, phase+duty);
+					var one = waveFormGenerator.GenerateSawWave(trackBar1.Value, phase).ToArray();
+					var two = waveFormGenerator.GenerateSawWave(trackBar1.Value, phase+duty);
 					for (int index = 0; index < 1024; index++)
 					{
 						one[index] -= two[index];
@@ -62,8 +62,8 @@ namespace CrapWaveViewer
 					break;
 
 				case 5:
-					float[] one1 = waveFormGenerator.GenerateSawWave(trackBar1.Value, phase);
-					float[] two1 = waveFormGenerator.GenerateSawWave(trackBar1.Value, phase + duty);
+					var one1 = waveFormGenerator.GenerateSawWave(trackBar1.Value, phase).ToArray();
+					var two1 = waveFormGenerator.GenerateSawWave(trackBar1.Value, phase + duty);
 					for (int index = 0; index < 1024; index++)
 					{
 						one1[index] += two1[index] + (duty / 30); // 30 is trial and error - I don't know the significance of this value

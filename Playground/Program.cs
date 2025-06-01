@@ -1,7 +1,7 @@
-﻿using Cycle.AdditiveSynthesis;
-using Cycle.Core.AudioComponents;
+﻿using Cycle.Core.AudioComponents;
 using Cycle.Core.Core;
 using Cycle.Core.Factory;
+using Cycle.Core.WaveTables;
 using Cycle.Midi;
 using Cycle.Wasapi.NAudio;
 
@@ -9,6 +9,9 @@ using NAudio.Wave;
 
 using System.Diagnostics;
 using System.Runtime;
+
+//var vaWaveTables = VAWavetableFactory.Create();
+
 
 //AdditiveTest additiveTest = new AdditiveTest();
 
@@ -48,11 +51,11 @@ foreach (var midiInputInterface in midiInterface.Inputs) host.Add(midiInputInter
 var audioOut = host.Add("audio_out", componentFactory.Create("audio_out"));
 
 // just add a test unit and connect it the audio output
-host.Add("synth", componentFactory.Create("test_synth"));
+host.Add("synth", componentFactory.Create("sine_synth"));
 host.Connect("synth", "out", "audio_out", "in");
 host.Connect(midiInterface.Inputs[0].Name.ToLower(), "out", "synth", "midi_in");
-host.Connect(midiInterface.Inputs[0].Name.ToLower(), "out", "synth", "midi_in2");
-host.Connect(midiInterface.Inputs[0].Name.ToLower(), "out", "synth", "midi_in3");
+//host.Connect(midiInterface.Inputs[0].Name.ToLower(), "out", "synth", "midi_in2");
+//host.Connect(midiInterface.Inputs[0].Name.ToLower(), "out", "synth", "midi_in3");
 
 // set sample rate
 host.Initialise(48000);

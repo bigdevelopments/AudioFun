@@ -3,10 +3,15 @@
 	"elements": {
 		"midi_driver": "poly_bridge(4)",
 		"level": "constant(0.1)",
-		"osc1": "sine_osc",
+		"osc1": "va_osc",
 		"osc2": "naive_pulse",
 		"osc3": "naive_saw",
 		"osc4": "sine_osc",
+		"amp1": "multiplier(2)",
+		"amp2": "multiplier(2)",
+		"amp3": "multiplier(2)",
+		"amp4": "multiplier(2)",
+
 		"adder": "adder(4)",
 		"multiplier": "multiplier(2)",
 		"lpf": "lpf",
@@ -18,10 +23,18 @@
 		"osc2:frq": "midi_driver:frq_2",
 		"osc3:frq": "midi_driver:frq_3",
 		"osc4:frq": "midi_driver:frq_4",
-		"adder:in_1": "osc1:out",
-		"adder:in_2": "osc2:out",
-		"adder:in_3": "osc3:out",
-		"adder:in_4": "osc4:out",
+		"amp1:in_1": "osc1:out",
+		"amp1:in_2": "midi_driver:trg_1",
+		"amp2:in_1": "osc2:out",
+		"amp2:in_2": "midi_driver:trg_2",
+		"amp3:in_1": "osc3:out",
+		"amp3:in_2": "midi_driver:trg_3",
+		"amp4:in_1": "osc4:out",
+		"amp4:in_2": "midi_driver:trg_4",
+		"adder:in_1": "amp1:out",
+		"adder:in_2": "amp2:out",
+		"adder:in_3": "amp3:out",
+		"adder:in_4": "amp4:out",
 		"multiplier:in_1": "adder:out",
 		"multiplier:in_2": "level:out",
 		"lpf:in": "multiplier:out",
@@ -30,6 +43,6 @@
 	},
 	"expose": {
 		"midi_in": "midi_driver:midi_in",
-		"out": "lpf:out"
+		"out": "multiplier:out"
 	}
 }
